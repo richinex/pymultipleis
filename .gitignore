@@ -1,0 +1,37 @@
+.DS_Store
+.vscode
+docs/build/
+docs/source/_build
+docs/source/_templates
+*.pyc
+tests/__pycache__/
+
+
+
+#Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+ mypy
+.mypy_cache/

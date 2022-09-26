@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "pymultipleis"
+version = "0.1.0"
+description = ""
+authors = ["Richard Chukwu <richinex@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+matplotlib = "3.6.0"
+scipy = "1.9.1"
+numpy = "^1.23.3"
+pandas = "^1.5.0"
+jax = "^0.3.17"
+jaxopt = "^0.5"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+ipykernel = "6.15.3"
+flake8 = "5.0.4"
+pre-commit = "2.20.0"
+Sphinx = "5.1.1"
+sphinx-rtd-theme = "1.0.0"
+nbsphinx = "0.8.9"
+sphinxcontrib-napoleon = "^0.7"
+sphinxemoji = "0.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.extras]
+docs = ["toml"]
