@@ -31,12 +31,12 @@ Dependencies
 impedance.py requires:
 
 -   Python (>=3.9)
--   torch (>=1.12.1)
+-   Jax (>=1.23.3)
+-   Jaxopt (>=1.23.3)
 -   SciPy (>=1.9.1)
 -   NumPy (>=1.23.3)
--   Pandas (>=1.4.4)
 -   Matplotlib (>=3.6.0)
--   Pytorch-minimize
+
 
 
 Several example notebooks are provided in the examples/ directory.
