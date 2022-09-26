@@ -147,7 +147,7 @@ class Multieis:
 
         self.num_freq = len(freq)
         self.num_eis = Z.shape[1]
-        self.F = jnp.asarray(freq, dtype = jnp.float64)
+        self.F = jnp.asarray(freq, dtype=jnp.float64)
         self.Z = self.check_is_complex(Z)
         self.Z_exp = self.Z.copy()
         self.Y_exp = 1 / self.Z_exp.copy()
@@ -173,8 +173,6 @@ class Multieis:
         )
 
         self.lb_vec, self.ub_vec = self.get_bounds_vector(self.lb, self.ub)
-
-
 
         # Define weighting strategies
         if isinstance(weight, jnp.ndarray):
@@ -312,8 +310,10 @@ class Multieis:
         """
         assert p.ndim > 0 and p.ndim <= 2
         if p.ndim == 1:
-            par = jnp.broadcast_to(p[:, None],
-                                     (self.num_params, self.num_eis))
+            par = jnp.broadcast_to(
+                p[:, None],
+                (self.num_params, self.num_eis)
+                )
         else:
             par = p
         self.p0_mat = jnp.zeros(
@@ -388,14 +388,14 @@ class Multieis:
         return wrss
 
     def residual_func(self,
-                     p: jnp.ndarray,
-                     f: jnp.ndarray,
-                     z: jnp.ndarray,
-                     zerr_re: jnp.ndarray,
-                     zerr_im: jnp.ndarray,
-                     lb,
-                     ub
-                     ) -> jnp.ndarray:
+                      p: jnp.ndarray,
+                      f: jnp.ndarray,
+                      z: jnp.ndarray,
+                      zerr_re: jnp.ndarray,
+                      zerr_im: jnp.ndarray,
+                      lb,
+                      ub
+                      ) -> jnp.ndarray:
         """
         Computes the vector of weighted residuals. \
         This is the objective function passed to the least squares solver.
@@ -521,7 +521,6 @@ class Multieis:
         )
         return (jnp.sum(wrss_tot) + chi_smf)
 
-
     def compute_perr(self,
                      P: jnp.ndarray,
                      F: jnp.ndarray,
@@ -588,14 +587,13 @@ class Multieis:
         # if the error is nan, a value of 1 is assigned.
         return jnp.nan_to_num(perr, nan=1.0)
 
-
     def compute_perr_QR(self,
-                        P:jnp.ndarray,
-                        F:jnp.ndarray,
-                        Z:jnp.ndarray,
-                        Zerr_Re:jnp.ndarray,
-                        Zerr_Im:jnp.ndarray
-                        )->jnp.ndarray:
+                        P: jnp.ndarray,
+                        F: jnp.ndarray,
+                        Z: jnp.ndarray,
+                        Zerr_Re: jnp.ndarray,
+                        Zerr_Im: jnp.ndarray
+                        ) -> jnp.ndarray:
 
         """
         Computes the error on the parameters resulting from the batch fit
@@ -616,30 +614,35 @@ class Multieis:
         :returns: A 2D tensor of the standard error on the parameters
 
         """
-        grad_func = lambda p, f: jax.jacfwd(self.func)(p, f)
+        def grad_func(p,
+                      f
+                      ):
+            return jax.jacfwd(self.func)(p, f)
+
         perr = jnp.zeros(shape=(self.num_params, self.num_eis))
         for i in range(self.num_eis):
             wrms = self.wrms_func(P[:, i], F, Z[:, i], Zerr_Re[:, i], Zerr_Im[:, i])
             gradsre = grad_func(P[:, i], F)[:self.num_freq]
             gradsim = grad_func(P[:, i], F)[self.num_freq:]
-            rtwre =jnp.diag((1/Zerr_Re[:, i]))
+            rtwre = jnp.diag((1/Zerr_Re[:, i]))
             rtwim = jnp.diag((1/Zerr_Im[:, i]))
             vre = rtwre@gradsre
             vim = rtwim@gradsim
-            Q1, R1 = jnp.linalg.qr(jnp.concatenate([vre,vim], axis = 0))
+            Q1 , R1 = jnp.linalg.qr(jnp.concatenate([vre , vim] , axis=0))
             try:
                 # Here we check to see if the Hessian matrix is singular or
                 # ill-conditioned since this makes accurate computation of the
                 # confidence intervals close to impossible.
                 invR1 = jnp.linalg.inv(R1)
-            except:
+            except Exception as e:
+                print(e.__doc__)
+                print(e.message)
                 print(f"\nHessian Matrix is singular for spectra {i}")
                 invR1 = jnp.ones(shape=(self.num_params, self.num_params))
 
             perr = perr.at[:, i].set(jnp.linalg.norm(invR1, axis=1)*jnp.sqrt(wrms))
         # if the error is nan, a value of 1 is assigned.
         return jnp.nan_to_num(perr, nan=1.0)
-
 
     def train_step(self,
                    step_i,
@@ -653,7 +656,18 @@ class Multieis:
                    smf
                    ):
         net_params = self.get_params(opt_state)
-        self.loss, self.grads = jax.value_and_grad(self.cost_func, argnums=0)(net_params, F, Z, Zerr_Re, Zerr_Im, LB, UB, smf)
+        self.loss, self.grads = jax.value_and_grad(
+            self.cost_func, argnums=0
+            )(
+                net_params,
+                F,
+                Z,
+                Zerr_Re,
+                Zerr_Im,
+                LB,
+                UB,
+                smf
+                )
         return self.loss, self.opt_update(step_i, self.grads, opt_state)
 
     def compute_aic(self,
@@ -718,11 +732,10 @@ class Multieis:
             aic = m2lnL + 2 * (self.num_params + 1)
         return aic
 
-
     def fit_simultaneous(self,
-                          method:str = 'TNC',
-                          n_iter: int = 5000,
-                          ) -> Tuple[
+                         method : str = 'TNC',
+                         n_iter : int = 5000,
+                         ) -> Tuple[
         jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
     ]:
 
@@ -739,7 +752,7 @@ class Multieis:
         """
         self.method = method.lower()
         assert (self.method in ['tnc', 'bfgs', 'l-bfgs-b']), ("method must be one of "
-                                                  "'tnc, 'bfgs' or 'l-bfgs-b'")
+                                                              "'tnc, 'bfgs' or 'l-bfgs-b'")
         if hasattr(self, "popt") and self.popt.shape[1] == self.Z.shape[1]:
             print("\nUsing prefit")
 
@@ -757,13 +770,12 @@ class Multieis:
         start = datetime.now()
 
         solver = jaxopt.ScipyMinimize(
-            method = method,
-            fun=jax.jit(self.cost_func
-                        ),
-                        dtype='float64',
-                        tol = 1e-14,
-                        maxiter=n_iter
-                        )
+            method=self.method,
+            fun=jax.jit(self.cost_func),
+            dtype='float64',
+            tol=1e-14,
+            maxiter=n_iter,
+            )
         self.sol = solver.run(
             self.par_log,
             self.F,
@@ -775,10 +787,8 @@ class Multieis:
             self.smf
             )
 
-
         self.popt = self.convert_to_external(self.sol.params)
         self.chitot = self.sol.state.fun_val/self.dof
-
 
         self.perr = self.compute_perr(
             self.popt,
@@ -858,7 +868,6 @@ class Multieis:
         self.losses = []
         for epoch in range(self.num_epochs):
 
-
             self.loss, self.opt_state = jax.jit(self.train_step)(
                 epoch,
                 self.opt_state,
@@ -871,10 +880,11 @@ class Multieis:
                 self.smf
                 )
             self.losses.append(float(self.loss))
-            if epoch%int(self.num_epochs/10)==0:
-                print("" + str(epoch) + ": "
+            if epoch % int(self.num_epochs/10) == 0:
+                print(
+                    "" + str(epoch) + ": "
                     + "loss=" + "{:5.3e}".format(self.loss/self.dof)
-                )
+                    )
 
         self.popt = self.convert_to_external(self.get_params(self.opt_state))
         self.chitot = self.losses[-1]
@@ -911,11 +921,9 @@ class Multieis:
 
         return self.popt, self.perr, self.chisqr, self.chitot, self.AIC
 
-
-
     def fit_simultaneous_zero(self,
-                   n_iter: int = 5000
-                   ) -> Tuple[
+                              n_iter: int = 5000,
+                              ) -> Tuple[
         jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
     ]:
 
@@ -946,13 +954,12 @@ class Multieis:
         start = datetime.now()
 
         solver = jaxopt.ScipyMinimize(
-            method = "TNC",
-            fun=jax.jit(self.cost_func
-                        ),
-                        dtype='float64',
-                        tol = 1e-14,
-                        maxiter=n_iter
-                        )
+            method="TNC",
+            fun=jax.jit(self.cost_func),
+            dtype='float64',
+            tol=1e-14,
+            maxiter=n_iter
+            )
         self.sol = solver.run(
             self.par_log,
             self.F,
@@ -1001,14 +1008,11 @@ class Multieis:
         self.indices = [i for i in range(self.Z_exp.shape[1])]
         return self.popt, self.perr, self.chisqr, self.chitot, self.AIC
 
-
-
-
     def fit_sequential(self,
                        indices: Sequence[int] = None,
                        ) -> Tuple[
-        jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
-        ]:
+                        jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
+                        ]:
         """
         Fits each spectra individually using the L-M least squares method
 
@@ -1130,9 +1134,9 @@ class Multieis:
                 try:
                     invR1 = jnp.linalg.inv(R1)
                     perr = perr.at[:, i].set(
-                        jnp.linalg.norm(invR1, axis=1) * jnp.sqrt(
-                        chisqr[i]
-                    ))
+                        jnp.linalg.norm(invR1, axis=1)
+                        * jnp.sqrt(chisqr[i])
+                        )
                 except Exception as e:
                     print(e.__doc__)
                     print(e.message)
@@ -1157,10 +1161,10 @@ class Multieis:
         return self.popt, self.perr, self.chisqr, self.chitot, self.AIC
 
     def compute_perr_mc(self,
-                        n_boots: int = 500
+                        n_boots: int = 500,
                         ) -> Tuple[
-        jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
-        ]:
+                            jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
+                            ]:
 
         """
         The bootstrap approach used here is \
@@ -1199,7 +1203,6 @@ class Multieis:
 
         self.Z_pred, self.Y_pred = self.model_prediction(self.popt, self.F)
 
-
         # Taking the sqrt of the chisquare gives us an
         # estimate of the error in measured immittance values
 
@@ -1229,7 +1232,6 @@ class Multieis:
 
         idx = [i for i in range(self.num_freq)]
 
-
         # Make containers to hold bootstrapped values
         self.popt_mc = jnp.zeros(
             shape=(
@@ -1240,15 +1242,20 @@ class Multieis:
             )
         self.Z_pred_mc_tot = jnp.zeros(
             shape=(self.n_boots, self.num_freq, self.num_eis),
-        dtype = jnp.complex64)
+            dtype=jnp.complex64
+            )
 
         self.chisqr_mc = jnp.zeros(self.n_boots)
 
         popt_log_mc = jnp.zeros(
-            shape=(self.n_boots,
-            self.num_params * self.num_eis
-            - (self.num_eis - 1) * jnp.sum(jnp.isinf(self.smf))),
-        )
+            shape=(
+                self.n_boots,
+                self.num_params
+                * self.num_eis
+                - (self.num_eis - 1)
+                * jnp.sum(jnp.isinf(self.smf))
+                ),
+                )
 
         # Here we loop through the number of boots and
         # run the minimization algorithm using the do_minimize function
@@ -1283,7 +1290,7 @@ class Multieis:
                 jnp.asarray(Z_pred_mc, dtype=jnp.complex64)
                 )
         self.popt = self.popt.copy()
-        self.perr = jnp.std(self.popt_mc, ddof = 1, axis=0)
+        self.perr = jnp.std(self.popt_mc, ddof=1, axis=0)
         self.chisqr = jnp.mean(self.chisqr_mc, axis=0)
         self.chitot = self.chisqr.copy()
         return self.popt, self.perr, self.chisqr, self.chitot, self.AIC
@@ -1325,13 +1332,12 @@ class Multieis:
             when set to inf, the corresponding parameter is kept constant
         """
         solver = jaxopt.ScipyMinimize(
-            method = "TNC",
-            fun=jax.jit(self.cost_func
-                        ),
-                        dtype='float64',
-                        tol = 1e-14,
-                        maxiter=5000
-                        )
+            method="TNC",
+            fun=jax.jit(self.cost_func),
+            dtype='float64',
+            tol=1e-14,
+            maxiter=5000
+            )
         sol = solver.run(
             p,
             f,
@@ -1381,14 +1387,14 @@ class Multieis:
             jax.jit(self.residual_func))(p, f, z, zerr_re, zerr_im, lb, ub)
 
     def do_minimize_lstsq(self,
-                       p: jnp.ndarray,
-                       f: jnp.ndarray,
-                       z: jnp.ndarray,
-                       zerr_re: jnp.ndarray,
-                       zerr_im: jnp.ndarray,
-                       lb: jnp.ndarray,
-                       ub: jnp.ndarray,
-                       ) -> Tuple[
+                          p: jnp.ndarray,
+                          f: jnp.ndarray,
+                          z: jnp.ndarray,
+                          zerr_re: jnp.ndarray,
+                          zerr_im: jnp.ndarray,
+                          lb: jnp.ndarray,
+                          ub: jnp.ndarray,
+                          ) -> Tuple[
         jnp.ndarray, jnp.ndarray
     ]:  #
         """
@@ -1422,12 +1428,11 @@ class Multieis:
         res = scipy.optimize.least_squares(
             jax.jit(self.residual_func),
             p,
-            args = (
-                f, z, zerr_re, zerr_im, lb, ub
-                ),
-                method='trf',
-                tr_solver='lsmr',
-                jac = self.jac_fun)
+            args=(f, z, zerr_re, zerr_im, lb, ub),
+            method='trf',
+            tr_solver='lsmr',
+            jac=self.jac_fun
+            )
         return res.x, res.fun
 
     def encode(self,
@@ -1533,7 +1538,6 @@ class Multieis:
                 pass
             else:
                 raise
-
 
     def plot_nyquist(self,
                      steps: int = 1,
@@ -2432,4 +2436,3 @@ class Multieis:
                         onp.asarray(self.chitot),
                     )
                 )
-
