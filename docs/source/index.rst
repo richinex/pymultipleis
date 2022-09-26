@@ -30,9 +30,6 @@ Installation
 
    pip install pymultipleis
 
-:ref:`quick-start-guide-label` contains a step-by-step tutorial
-on getting started with :code:`pymultipleis`.
-
 Dependencies
 ~~~~~~~~~~~~
 
