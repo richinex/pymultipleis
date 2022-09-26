@@ -12,9 +12,13 @@ The fitting algorithm implemented in pymultieis allows the kinetic parameters of
 such as the charge transfer resistance, double layer capacitance and Warburg coefficient to be obtained
 as curves which vary as a function of the dependent variable under study.
 
+An paper which introduces the algorithm implemented in ``pymultipleis`` can be found [here](https://doi.org/10.1002/elan.201600260).
+
+``pymultipleis`` is written in python and is based on the ``Jax`` library therefore ``Jax`` needs to be installed before installing ``pymultipleis`` via pip
+
 The ``py`` in ``pymultipleis`` represents python while the ``multipleis`` is an abbreviation for ``Multiple Electrochemical Impedance Spectra``.
 
-``pymultipleis`` offers methods modules for model fiting, model validation, visualization,
+``pymultipleis`` also offers methods for model validation and visualization.
 
 
 Installation
@@ -47,3 +51,9 @@ Examples
 *********************
 
 Detailed tutorials on several aspects of ``pymultipleis`` can be found on the [examples page](https://pymultipleis.readthedocs.io/en/latest/examples.html).
+
+Documentation
+******************
+
+Details about the ``pymultipleis`` API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
+

@@ -43,8 +43,8 @@ We assume that we have our files in the data folder one step above working direc
 
 .. code-block:: python
 
-import numpy as onp
-import jax.numpy as jnp
+  import numpy as onp
+  import jax.numpy as jnp
 
 .. testsetup::
 
@@ -158,7 +158,7 @@ Step 5: Fit the model to data
 Once our class in instantiated, we fit the data by calling any of the fit methods.
 :code:`pymultipleis` offers a :code:`fit_simultaneous()`, :code:`fit_simultaneous_zero()` and a :code:`fit_stochastic()` method.
 The :code:`fit_simultaneous()` and :code:`fit_simultaneous_zero()` methods have accept two extra arguments: :code:`method`
-which can be any of the methods (TNC, BFGS and L-BFGS-B) and `:code:`n_iter`, an integer
+which can be any of the methods (TNC, BFGS and L-BFGS-B) and :code:`n_iter`, an integer
 which determines the number of iterations used in the minimization. :code:`fit_stochastic()` takes in two arguments,
 a learning rate (:code:`lr`) and :code:`num_epochs`, which for most problems,
 setting ``learning_rate`` = 1e-3 and ``num_epochs`` = 5e5 is probably sufficient.
