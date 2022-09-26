@@ -41,10 +41,10 @@ pymultipleis requires:
 -   Python (>=3.9)
 -   jax (>=0.3.17)
 -   jaxopt (>=0.5)
--   SciPy (>=1.9.1)
+-   Matplotlib (>=3.6.0)
 -   NumPy (>=1.23.3)
 -   Pandas (>=1.4.4)
--   Matplotlib (>=3.6.0)
+-   SciPy (>=1.9.1)
 
 
 
