@@ -41,7 +41,7 @@ b. Parameter plot
     A batch fit
 
 However as the model becomes more complicated or the spectra noisier, ``fit_sequential()`` becomes more susceptible to jumps in the values of the
-parameters loses the ability to preserve the dependence between spectra. This is where the ``fit_simultaneous()`` method becomes essential.
+parameters and therefore loses the ability to preserve the dependence between spectra. This is where the ``fit_simultaneous()`` method becomes essential.
 This method preserves the correlation between parameters, is slightly less sensitive to initial values and can be used to obtain a reasonable initial guesses.
 Basically, the idea is to initially fit the data with ``fit_simultaneous()`` and then run ``fit_sequential()`` or ``fit_simultaneous_zero()``.
 A detailed example can be found in the :ref:`examples-label` page.
