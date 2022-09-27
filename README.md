@@ -9,6 +9,7 @@ pymultipleis
 [**Installation**](#installation)
 | [**Examples**](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples)
 | [**Documentation**](https://pymultipleis.readthedocs.io/en/latest/index.html)
+| [**References**](#references)
 
 
 A library for fitting a sequence of electrochemical impedance spectra.
@@ -60,4 +61,4 @@ Detailed tutorials on other aspects of ``pymultipleis`` can be found in [Example
 Details about the ``pymultipleis`` API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
 
 
-
+## References
