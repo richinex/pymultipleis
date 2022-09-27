@@ -1,8 +1,7 @@
 <div align="center">
-<img src="https://github.com/Dipolar-Quantum-Gases/jaxfit/blob/main/images/JAXFit_small.jpg" alt="logo"></img>
+<img src="_static/z_bode.png" alt="logo"></img>
 </div>
 
-.. image:: _static/z_bode.png
 
 pymultipleis
 =============
@@ -51,13 +50,10 @@ After installing the dependencies, you can now install pymultipleis via the foll
 fitting your data with ``pymultipleis``.
 
 
-Several example notebooks are provided in the examples/ directory.
-Opening these will require Jupyter notebook or Jupyter lab.
-
 ## Examples
 *********************
 
-Detailed tutorials on several aspects of ``pymultipleis`` can be found on the [examples page](https://pymultipleis.readthedocs.io/en/latest/examples.html).
+Detailed tutorial notebooks on several aspects of ``pymultipleis`` can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
 
 ## Documentation
 ******************
