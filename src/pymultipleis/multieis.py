@@ -740,7 +740,10 @@ class Multieis:
     ]:
 
         """
-        Fitting routine.
+        Simultaneous fitting routine with an arbitrary smoothing factor.
+
+        :params method: Solver to use (must be one of "'TNC', \
+                        'BFGS' or 'L-BFGS-B'")
 
         :params n_iter: Number of iterations
 
@@ -752,7 +755,7 @@ class Multieis:
         """
         self.method = method.lower()
         assert (self.method in ['tnc', 'bfgs', 'l-bfgs-b']), ("method must be one of "
-                                                              "'tnc, 'bfgs' or 'l-bfgs-b'")
+                                                              "'TNC', 'BFGS' or 'L-BFGS-B'")
         if hasattr(self, "popt") and self.popt.shape[1] == self.Z.shape[1]:
             print("\nUsing prefit")
 
@@ -922,13 +925,18 @@ class Multieis:
         return self.popt, self.perr, self.chisqr, self.chitot, self.AIC
 
     def fit_simultaneous_zero(self,
+                              method : str = 'TNC',
                               n_iter: int = 5000,
                               ) -> Tuple[
         jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
     ]:
 
         """
-        Fitting routine with the smoothing factor set to zero.
+        Simultaneous fitting routine with the smoothing factor set to zero.
+
+
+        :params method: Solver to use (must be one of "'TNC', \
+                        'BFGS' or 'L-BFGS-B'")
 
         :param n_iter: Number of iterations
 
@@ -937,6 +945,9 @@ class Multieis:
                   the objective function at the minimum (chisqr), \
                   the total cost function (chitot) and the AIC
         """
+        self.method = method.lower()
+        assert (self.method in ['tnc', 'bfgs', 'l-bfgs-b']), ("method must be one of "
+                                                              "'TNC', 'BFGS' or 'L-BFGS-B'")
         if hasattr(self, "popt") and self.popt.shape[1] == self.Z.shape[1]:
             print("\nUsing prefit")
 
@@ -954,7 +965,7 @@ class Multieis:
         start = datetime.now()
 
         solver = jaxopt.ScipyMinimize(
-            method="TNC",
+            method=self.method,
             fun=jax.jit(self.cost_func),
             dtype='float64',
             tol=1e-14,
