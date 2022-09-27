@@ -47,13 +47,13 @@ Finite length diffusion with reflective boundary
 Describes the reaction of mobile active species distributed in a layer with finite length,
 terminated by an impermeable boundary.
 
-.. math::
-    Z_{Wo} = \sqrt{\frac{R_d}{s C_d}} \coth(\sqrt{R_{d}~sC_{d}})
+.. math:: Z_{Wo} = \sqrt{\frac{R_d}{s C_d}} \coth(\sqrt{R_{d}~sC_{d}})
+    :label: ZWo
 
 Or
 
 .. math:: Z_{Wo} = R \frac{coth(j \omega \tau)^{\phi}}{(j \omega \tau)_{\phi}}
-    :label: ZWo
+
 
 
 Where :math:`\phi` = 0.5
@@ -71,13 +71,13 @@ Finite length diffusion with transmissive boundary
 Describes the reaction of mobile active species distributed in a layer with finite length,
 terminated by an impermeable boundary.
 
-.. math::
-    Z_{Ws} = \sqrt{\frac{R_d}{s C_d}} \tanh(\sqrt{R_{d}~sC_{d}})
+.. math:: Z_{Ws} = \sqrt{\frac{R_d}{s C_d}} \tanh(\sqrt{R_{d}~sC_{d}})
+    :label: ZWs
 
 Or
 
 .. math:: Z_{Ws} = R \frac{tanh(j \omega \tau)^{\phi}}{(j \omega \tau)_{\phi}}
-    :label: ZWs
+
 
 Where :math:`\phi` = 0.5
 
@@ -88,3 +88,6 @@ Where :math:`\phi` = 0.5
   ZWs = jnp.sqrt(Rd/s*Cd) * jnp.tanh(jnp.sqrt(Rd * s*Cd))
 
 
+
+Resources on the web
+===================================================

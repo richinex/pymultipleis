@@ -5,7 +5,7 @@ Getting started with :code:`pymultipleis`
 =========================================
 
 :code:`pymultipleis` is a Python package for processing multiple electrochemical impedance spectroscopy (EIS) data.
-It uses an object oriented approach and is based on the `Jax library <https://jax.readthedocs.io/en/latest/>`_.
+It uses an object oriented approach and is based on the `JAX library <https://jax.readthedocs.io/en/latest/>`_.
 :code:`pymultipleis` provides a Multieis class with methods for fitting, visualizing and saving the results thereafter.
 
 
@@ -30,13 +30,14 @@ Step 1: Installation
 Step 2: Load your data
 ================================
 
-The data which is loaded should comprises a vector of frequencies at which the immittance data was taken,
+The data that is loaded should be a vector of frequencies at which the immittance data was taken,
 and the 2-D array of complex immittances (impedances or admittances) where the size of the rows correspond
 to the length of the frequencies vector and the size of the columns is the number of spectra to be fitted.
-It is assumed that the frequencies are uniform for all the spectra in a particular series.
+If we know the standard deviation of our immittance measurements, this can also be used instead of the ``modulus`` or other weighting options.
+It is assumed that the frequencies are equal for all the spectra in a particular series.
 The frequencies and immittance shall be our freq and Z when we create our Multieis instance.
 In the example below the files which were originally stored as numpy arrays
-will be converted to Jax Device arrays using :code:`jnp.asarray` function.
+will be converted to JAX Device arrays using :code:`jnp.asarray` function.
 
 We assume that we have our files in the data folder one step above working directory
 
@@ -118,12 +119,34 @@ For instance we shall convert modified *Randles* circuit shown below to a python
       Y = 1/Z
       return jnp.concatenate([Y.real, Y.imag], axis = 0)
 
+An even simpler way would be to predefine a function ``par`` which computes the total impedance of circuit elements in parallel
+
+.. code-block:: python
+
+  par = lambda a, b: 1/(1/a + 1/b) # Defines the total impedance of circuit elements in parallel
+
+  def redox(p, f):
+      w = 2*jnp.pi*f                      # Angular frequency
+      s = 1j*w                            # Complex variable
+      Rs = p[0]
+      Qh = p[1]
+      nh = p[2]
+      Rct = p[3]
+      Wct = p[4]
+      Rw = p[5]
+      Zw = Wct/jnp.sqrt(w) * (1-1j)       # Planar infinite length Warburg impedance
+      Zdl = 1/(s**nh*Qh)                  # admittance of a CPE
+      Z = Rs + par(Zdl, Rct + par(Zw, Rw))
+      Y = 1/Z
+      return jnp.concatenate((Y.real, Y.imag), axis = 0)
+
+
 .. tip::
   The key idea to remember is that for circuit elements in series, we add their impedances while for
   elements in parallel, we add their admittances.
 
 
-Next, we define an initial guess, bounds and smoothing factor for each of the parameters as a tensor.
+Next, we define an initial guess, bounds and smoothing factor for each of the parameters as JAX device arrays.
 
 .. code-block:: python
 
@@ -135,7 +158,8 @@ Next, we define an initial guess, bounds and smoothing factor for each of the pa
 
 .. note::
 
-   The values of the smoothing factor ``smf`` are not fixed. They could vary depending on the
+   The smoothing factor is a value that determines how smoothly a certain parameter varies as A
+   function of the sequence index. The values of the smoothing factor ``smf`` are not fixed. They could vary depending on the
    data and weighting used. Check out the :ref:`examples-label` page for more details.
 
 
@@ -149,6 +173,12 @@ and the :code:`immittance` we are modeling which in this case is the admittance.
 .. code-block:: python
 
   eis_redox = pym.Multieis(p0, F, Y, bounds, smf, redox, weight= Yerr, immittance='admittance')
+
+.. note::
+
+   The details of the computation of the standard deviation of the admittance used in this guide is given
+   in this `paper <https://doi.org/10.1002/celc.202200109>`_.
+   Methods for obtaining the standard deviation of impedance measurements are briefly described under the :ref:`FAQ-label` section.
 
 
 

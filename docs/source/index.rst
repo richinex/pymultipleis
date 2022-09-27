@@ -25,6 +25,7 @@ The ``py`` in ``pymultipleis`` represents python while the ``multipleis`` is an 
 :code:`pymultipleis` offers methods modules for model fiting, model validation, visualization,
 
 An paper which introduces the algorithm implemented in ``pymultipleis`` can be found `here <https://doi.org/10.1002/elan.201600260>`_.
+How :code:`pymultipleis` works is briefly described in the section :ref:`how-it-works-label`
 
 Installation
 ------------
