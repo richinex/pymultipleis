@@ -1,5 +1,5 @@
 <div align="center">
-<img src="_static/z_bode.png" alt="logo"></img>
+<img src=_static/z_bode.png alt="logo"></img>
 </div>
 
 
