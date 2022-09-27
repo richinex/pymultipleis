@@ -47,7 +47,7 @@ After installing the dependencies, you can now install pymultipleis via the foll
 pip install pymultipleis
 ```
 
-[Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/getting-started.html) contains a quick start guide to
+[Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/quick-start-guide.html#) contains a quick start guide to
 fitting your data with ``pymultipleis``.
 
 
