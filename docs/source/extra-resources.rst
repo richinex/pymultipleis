@@ -22,8 +22,8 @@ Or
 .. math::
     Z_{W} = \sqrt{\frac{R_d}{s C_d}} (\sqrt{R_{d}~sC_{d}})
 
-Where :math:`s = j \omega` and :math:`\sigma` has units of :math:`\Omega s^{-0.5}`,
-:math:`R` has units of Ohms (:math:`\Omega`) and :math:`C` has units of Farads (:math:`F`).
+Where :math:`s = j \omega` with :math:`j` being the imaginary unit and :math:`\omega` the angular frequency.
+:math:`A_{W} has units of :math:`\Omega s^{-0.5}`, :math:`R` has units of Ohms (:math:`\Omega`) and :math:`C` has units of Farads (:math:`F`).
 
 And
 
@@ -74,10 +74,12 @@ terminated by an impermeable boundary.
 .. math::
     Z_{Ws} = \sqrt{\frac{R_d}{s C_d}} \tanh(\sqrt{R_{d}~sC_{d}})
 
+Or
 
 .. math:: Z_{Ws} = R \frac{tanh(j \omega \tau)^{\phi}}{(j \omega \tau)_{\phi}}
     :label: ZWs
 
+Where :math:`\phi` = 0.5
 
 .. code-block:: python
 
@@ -85,4 +87,4 @@ terminated by an impermeable boundary.
   s = 1j * w
   ZWs = jnp.sqrt(Rd/s*Cd) * jnp.tanh(jnp.sqrt(Rd * s*Cd))
 
-Where :math:`\phi` = 0.5
+

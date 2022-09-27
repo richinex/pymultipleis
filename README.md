@@ -1,47 +1,47 @@
 pymultipleis
 =============
 
-   ``"Simplicity is the ultimate sophistication - Leonardo da Vinci"``
-
-``pymultipleis`` offers a robust approach to fitting a sequence of electrochemical impedance spectra with some model function.
-Usually the spectra being fitted are gradually varying or similar to each other and were obtained as a result of continuous change
-in the property of the electrochemical system under study. Such properties include but are not limited to temperature, potential,
-state of charge and depth of discharge.
-
-The fitting algorithm implemented in pymultieis allows the kinetic parameters of the system
-such as the charge transfer resistance, double layer capacitance and Warburg coefficient to be obtained
-as curves which vary as a function of the dependent variable under study.
-
-An paper which introduces the algorithm implemented in ``pymultipleis`` can be found [here](https://doi.org/10.1002/elan.201600260).
-
-``pymultipleis`` is written in python and is based on the ``Jax`` library therefore ``Jax`` needs to be installed before installing ``pymultipleis`` via pip
-
-The ``py`` in ``pymultipleis`` represents python while the ``multipleis`` is an abbreviation for ``Multiple Electrochemical Impedance Spectra``.
-
-``pymultipleis`` also offers methods for model validation and visualization.
+[**Installation**](#installation)
+| [**Examples**](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples)
+| [**Documentation**](https://pymultipleis.readthedocs.io/en/latest/index.html)
 
 
-Installation
+A library for fitting a sequence of electrochemical impedance spectra.
+
+- Implements algorithms for simultaneous and sequential fitting.
+
+- Written in python and based on the [JAX library](https://jax.readthedocs.io/en/latest/).
+
+- Leverages JAX's in-built automatic differentiation ([autodiff](https://jax.readthedocs.io/en/latest/notebooks/autodiff_cookbook.html)) of Python functions.
+
+- Takes advantage of JAX's just-in-time compilation (JIT) of Python code to [XLA](https://www.tensorflow.org/xla) which runs on GPU or TPU hardware.
+
+
+Installation<a id="installation"></a>
 *************
 
-   pip install pymultipleis
-
-[Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/getting-started.html) contains a step-by-step tutorial
-fitting your data with ``pymultipleis``.
-
-Dependencies
-**************
-
-pymultipleis requires:
+pymultipleis requires the following:
 
 -   Python (>=3.9)
--   jax (>=0.3.17)
--   jaxopt (>=0.5)
+-   [JAX](https://jax.readthedocs.io/en/latest/) (>=0.3.17)
+-   [JAXopt](https://github.com/google/jaxopt/blob/main/README.md) (>=0.5)
 -   Matplotlib (>=3.6.0)
 -   NumPy (>=1.23.3)
 -   Pandas (>=1.4.4)
 -   SciPy (>=1.9.1)
 
+Installing JAX on Linux is natively supported by the JAX team and instructions to do so can be found [here](https://github.com/google/jax#installation).
+
+For Windows systems, the officially supported method is building directly from the source code (see Building JAX from source).
+However, we've found it easier to use pre-built JAX wheels which can be found in this Github repo and we've included detailed instructions on this installation process below.
+
+
+After installing the dependencies, you can now install pymultipleis via the following pip command
+
+   pip install pymultipleis
+
+[Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/getting-started.html) contains a step-by-step tutorial
+fitting your data with ``pymultipleis``.
 
 
 Several example notebooks are provided in the examples/ directory.
@@ -56,4 +56,6 @@ Documentation
 ******************
 
 Details about the ``pymultipleis`` API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
+
+
 

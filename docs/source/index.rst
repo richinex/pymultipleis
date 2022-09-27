@@ -9,7 +9,9 @@ pymultipleis
 
    "Simplicity is the ultimate sophistication - Leonardo da Vinci"
 
-:code:`pymultipleis` ooffers a robust approach to fitting a sequence of electrochemical impedance spectra with some model function.
+.. image:: _static/z_bode.png
+
+:code:`pymultipleis` offers a robust approach to fitting a sequence of electrochemical impedance spectra with some model function.
 Usually the spectra being fitted are gradually varying or similar to each other and were obtained as a result of continuous change
 in the property of the electrochemical system under study. Such properties include but are not limited to temperature, potential,
 state of charge and depth of discharge.
@@ -22,6 +24,7 @@ The ``py`` in ``pymultipleis`` represents python while the ``multipleis`` is an 
 
 :code:`pymultipleis` offers methods modules for model fiting, model validation, visualization,
 
+An paper which introduces the algorithm implemented in ``pymultipleis`` can be found `here <https://doi.org/10.1002/elan.201600260>`_.
 
 Installation
 ------------
@@ -30,10 +33,7 @@ Installation
 
    pip install pymultipleis
 
-Dependencies
-~~~~~~~~~~~~
-
-pymultipleis requires:
+pymultipleis requires the following dependencies:
 
 -   Python (>=3.9)
 -   jax (>=0.3.17)
@@ -44,7 +44,6 @@ pymultipleis requires:
 -   SciPy (>=1.9.1)
 
 
-
 Several example notebooks are provided in the examples/ directory.
 Opening these will require Jupyter notebook or Jupyter lab.
 
@@ -53,7 +52,7 @@ Examples and Documentation
 
 :ref:`quick-start-guide-label` contains a detailed guide on getting started with :code:`pymultipleis`.
 It is assumed that the user is already familiar with basic python syntax.
-Detailed tutorials on several aspects of :code:`pymultipleis` can be found in the :code:`examples/` directory.
+Detailed tutorials on several aspects of :code:`pymultipleis` can be found on this `page <https://github.com/richinex/pymultipleis/tree/main/docs/source/examples>`_.
 The documentation can be found at
 
 .. toctree::

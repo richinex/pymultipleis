@@ -5,17 +5,16 @@ Getting started with :code:`pymultipleis`
 =========================================
 
 :code:`pymultipleis` is a Python package for processing multiple electrochemical impedance spectroscopy (EIS) data.
-It uses an object oriented approach and is based on the :code:`Jax` library.
+It uses an object oriented approach and is based on the `Jax library <https://jax.readthedocs.io/en/latest/>`_.
 :code:`pymultipleis` provides a Multieis class with methods for fitting, visualizing and saving the results thereafter.
 
-.. image:: _static/z_bode.png
 
 The following steps are good starting points towards analyzing your own data using :code:`pymultipleis`
 
 
 .. hint::
 
-  Please do not hesistate to `open an issue <https://github.com/richinex/pymultieis/issues>`_ should you encounter any difficulties or notice any bugs.
+  Please do not hesistate to `open an issue <https://github.com/richinex/pymultipleis/issues>`_ should you encounter any difficulties or notice any bugs.
 
 Step 1: Installation
 ====================
@@ -24,7 +23,7 @@ Step 1: Installation
 
 .. code-block:: bash
 
-   pip install pymultieis
+   pip install pymultipleis
 
 
 
@@ -45,6 +44,7 @@ We assume that we have our files in the data folder one step above working direc
 
   import numpy as onp
   import jax.numpy as jnp
+  import pymultipleis.multieis as pym
 
 .. testsetup::
 
@@ -136,7 +136,7 @@ Next, we define an initial guess, bounds and smoothing factor for each of the pa
 .. note::
 
    The values of the smoothing factor ``smf`` are not fixed. They could vary depending on the
-   data and weighting used. Check out :ref:`examples-label` for an example of this.
+   data and weighting used. Check out the :ref:`examples-label` page for more details.
 
 
 Step 4: Create an instance of the fitting class
@@ -148,7 +148,7 @@ and the :code:`immittance` we are modeling which in this case is the admittance.
 
 .. code-block:: python
 
-  eis_redox = Multieis(p0, F, Y, bounds, smf, redox, weight= Yerr, immittance='admittance')
+  eis_redox = pym.Multieis(p0, F, Y, bounds, smf, redox, weight= Yerr, immittance='admittance')
 
 
 
