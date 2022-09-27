@@ -15,7 +15,7 @@ A library for fitting a sequence of electrochemical impedance spectra.
 
 - Implements algorithms for simultaneous and sequential fitting.
 
-- Written in python and based on the [JAX library](https://jax.readthedocs.io/en/latest/).
+- Written in python and based on the [JAX library](https://github.com/google/jax).
 
 - Leverages JAX's in-built automatic differentiation ([autodiff](https://jax.readthedocs.io/en/latest/notebooks/autodiff_cookbook.html)) of Python functions.
 
@@ -44,7 +44,10 @@ on Windows installation is also provided in this [repo](https://github.com/Dipol
 
 After installing the dependencies, you can now install pymultipleis via the following pip command
 
-   > pip install pymultipleis
+```
+pip install pymultipleis
+
+```
 
 [Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/getting-started.html) contains a step-by-step tutorial
 fitting your data with ``pymultipleis``.
