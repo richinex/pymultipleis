@@ -22,7 +22,7 @@ as curves which vary as a function of the dependent variable under study
 
 The ``py`` in ``pymultipleis`` represents python while the ``multipleis`` is an abbreviation for ``Multiple Electrochemical Impedance Spectra``.
 
-:code:`pymultipleis` offers methods modules for model fiting, model validation, visualization,
+:code:`pymultipleis` offers methods modules for model fitting, model validation, visualization.
 
 An paper which introduces the algorithm implemented in ``pymultipleis`` can be found `here <https://doi.org/10.1002/elan.201600260>`_.
 How :code:`pymultipleis` works is briefly described in the section :ref:`how-it-works-label`
@@ -45,16 +45,13 @@ pymultipleis requires the following dependencies:
 -   SciPy (>=1.9.1)
 
 
-Several example notebooks are provided in the examples/ directory.
-Opening these will require Jupyter notebook or Jupyter lab.
-
 Examples and Documentation
 ---------------------------
 
 :ref:`quick-start-guide-label` contains a detailed guide on getting started with :code:`pymultipleis`.
 It is assumed that the user is already familiar with basic python syntax.
 Detailed tutorials on several aspects of :code:`pymultipleis` can be found on this `page <https://github.com/richinex/pymultipleis/tree/main/docs/source/examples>`_.
-The documentation can be found at
+
 
 .. toctree::
    :maxdepth: 2
