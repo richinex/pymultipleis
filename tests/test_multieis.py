@@ -1,6 +1,7 @@
 import pymultipleis.multieis as pym
 import numpy as onp
 import jax.numpy as jnp
+import os
 import pytest
 
 # Load the file containing the frequencies
@@ -231,3 +232,85 @@ def test_zero_in_params():
             )
     print(str(excinfo.value))
     assert str(excinfo.value) == "Values must be greater than zero"
+
+
+# Test for minimum number of spectra
+def test_immittance_column_size():
+
+    with pytest.raises(Exception) as excinfo:
+
+        pym.Multieis(
+            p0,
+            F,
+            Y[:, :4],
+            bounds,
+            smf_sigma,
+            redox,
+            weight='modulus',
+            immittance='admittance'
+            )
+    print(str(excinfo.value))
+    assert str(excinfo.value) == "The algorithm requires that the number of spectra be >= 5"
+
+
+# Test for shapes of F and Z
+def test_shape_equality_between_F_and_Z():
+
+    with pytest.raises(Exception) as excinfo:
+
+        pym.Multieis(
+            p0,
+            F[:-1],
+            Y,
+            bounds,
+            smf_sigma,
+            redox,
+            weight='modulus',
+            immittance='admittance'
+            )
+    print(str(excinfo.value))
+    assert str(excinfo.value) == "Length mismatch: The len of F is 44 while the rows of Z are 45"
+
+
+# Test for equality of value between wrms_func and cost_func when smoothing is zero
+all_methods = ['TNC', 'BFGS', 'L-BFGS-B']
+
+
+@pytest.mark.parametrize("method, weight", list(zip(all_methods, all_weights)))
+def test_equality_of_wrms_func_and_cost_func(method, weight):
+    """Test least-squares problem on unconstrained minimizers."""
+
+    multieis_instance = pym.Multieis(
+        p0,
+        F,
+        Y,
+        bounds,
+        smf_modulus,
+        redox,
+        weight=weight,
+        immittance='admittance'
+        )
+    popt, perr, chisqr, chitot, AIC = multieis_instance.fit_simultaneous_zero(method=method)
+    assert jnp.allclose(chisqr, chitot, rtol=1e-03, atol=1e-03, equal_nan=True)
+
+
+# Save results to file and read it back
+def test_save_and_read_results(rootdir):
+    multieis_instance = pym.Multieis(
+        p0,
+        F,
+        Y,
+        bounds,
+        smf_modulus,
+        redox,
+        weight='modulus',
+        immittance='admittance'
+        )
+    popt, perr, chisqr, chitot, AIC = multieis_instance.fit_simultaneous(method='TNC')
+    popt_test_file = os.path.join(rootdir, 'test_results/results/test_results_popt.npy')
+    perr_test_file = os.path.join(rootdir, 'test_results/results/test_results_perr.npy')
+    popt_test = onp.load(popt_test_file)
+    perr_test = onp.load(perr_test_file)
+    assert onp.allclose(onp.asarray(popt), popt_test, rtol=1e-3, atol=1e-3, equal_nan=True)
+    assert onp.allclose(onp.asarray(perr), perr_test, rtol=1e-3, atol=1e-3, equal_nan=True)
+    assert onp.allclose(popt_test.shape, perr_test.shape, rtol=1e-3, atol=1e-3, equal_nan=True)

@@ -94,7 +94,7 @@ class Multieis:
             print("Bounds must be a sequence of min-max pairs")
 
         if p0.ndim == 1:
-            self.p0 = self.check_zero_and_negative_values(p0)
+            self.p0 = self.check_zero_and_negative_values(self.check_nan_values(p0))
             self.num_params = len(self.p0)
             assert (
                 len(self.lb) == self.num_params
@@ -110,7 +110,7 @@ class Multieis:
                                         greater than the upper bound
                                         or less than lower bound""")
         elif (p0.ndim == 2) and (1 in p0.shape):
-            self.p0 = self.check_zero_and_negative_values(p0.flatten())
+            self.p0 = self.check_zero_and_negative_values(self.check_nan_values(p0.flatten()))
             self.num_params = len(self.p0)
             assert (
                 len(self.lb) == self.num_params
@@ -958,7 +958,6 @@ class Multieis:
 
         # Optimizer 1 uses the BFGS algorithm
         start = datetime.now()
-
         solver = jaxopt.ScipyMinimize(
             method=self.method,
             fun=jax.jit(self.cost_func),
