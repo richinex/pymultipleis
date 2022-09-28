@@ -22,11 +22,6 @@ mpl.rcParams["figure.facecolor"] = "white"
 plt.rcParams["font.weight"] = "bold"
 plt.rcParams["axes.linewidth"] = 1.5
 mpl.rcParams["ps.fonttype"] = 42
-plt.style.use("default")
-mpl.rcParams["figure.facecolor"] = "white"
-plt.rcParams["font.weight"] = "bold"
-plt.rcParams["axes.linewidth"] = 1.5
-mpl.rcParams["ps.fonttype"] = 42
 
 
 class Multieis:
@@ -860,10 +855,10 @@ class Multieis:
                 self.convert_to_internal(self.popt)
             )
         else:
+            print("\nUsing initial")
             self.par_log = (
                 self.convert_to_internal(self.p0)
             )
-            print("\nUsing initial")
 
         start = datetime.now()
         self.opt_init, self.opt_update, self.get_params = jax_opt.adam(self.lr)
@@ -1270,8 +1265,8 @@ class Multieis:
 
         # Here we loop through the number of boots and
         # run the minimization algorithm using the do_minimize function
+        par_log_mc = par_log.copy()
         for i in range(self.n_boots):
-            par_log_mc = par_log.copy()
             sidx = onp.random.choice(idx, replace=True, size=self.num_freq)
             rnd_resid_Re_boot = rnd_resid_Re[sidx, :]
             rnd_resid_Im_boot = rnd_resid_Im[sidx, :]
@@ -1296,7 +1291,7 @@ class Multieis:
             self.popt_mc = self.popt_mc.at[i, :, :].set((
                 self.convert_to_external(popt_log_mc[i, :])
             ))
-            self.chisqr_mc = self.chisqr_mc.at[i].set(res.state.fun_val)
+            self.chisqr_mc = self.chisqr_mc.at[i].set(res.state.fun_val/self.dof)
             self.Z_pred_mc_tot = self.Z_pred_mc_tot.at[i, :, :].set(
                 jnp.asarray(Z_pred_mc, dtype=jnp.complex64)
                 )
