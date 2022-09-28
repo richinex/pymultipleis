@@ -142,3 +142,92 @@ def test_immittance(immittance, true_immittance):
         )
 
     assert (true_immittance == multieis_instance.immittance)
+
+
+# Test for invalid bounds
+def test_invalid_bounds():
+
+    bounds_bad = [
+        [1e5 , 1e15],
+        [1e-9 , 1e2],
+        [1e-1 , 1e0],
+        [1e-15 , 1e15],
+        [1e-15 , 1e15],
+        [1e-15 , 1e15]
+        ]
+    with pytest.raises(AssertionError) as excinfo:
+
+        pym.Multieis(
+            p0,
+            F,
+            Y,
+            bounds_bad,
+            smf_sigma,
+            redox,
+            weight='modulus',
+            immittance='admittance'
+            )
+    print(str(excinfo.value))
+    assert str(excinfo.value) == """Initial guess can not be
+                                        greater than the upper bound
+                                        or less than lower bound"""
+
+
+# Test for NaN in parameters
+def test_invalid_params():
+
+    p0_bad = jnp.asarray(
+        [
+            1.6295e+02,
+            onp.nan,
+            9.3104e-01,
+            1.1865e+04,
+            4.7125e+05,
+            1.3296e+06
+            ]
+            )
+
+    with pytest.raises(Exception) as excinfo:
+
+        pym.Multieis(
+            p0_bad,
+            F,
+            Y,
+            bounds,
+            smf_sigma,
+            redox,
+            weight='modulus',
+            immittance='admittance'
+            )
+    print(str(excinfo.value))
+    assert str(excinfo.value) == "Values must not contain nan"
+
+
+# Test for zero in parameters
+def test_zero_in_params():
+
+    p0_bad = jnp.asarray(
+        [
+            1.6295e+02,
+            0,
+            9.3104e-01,
+            1.1865e+04,
+            4.7125e+05,
+            1.3296e+06
+            ]
+            )
+
+    with pytest.raises(Exception) as excinfo:
+
+        pym.Multieis(
+            p0_bad,
+            F,
+            Y,
+            bounds,
+            smf_sigma,
+            redox,
+            weight='modulus',
+            immittance='admittance'
+            )
+    print(str(excinfo.value))
+    assert str(excinfo.value) == "Values must be greater than zero"
