@@ -1070,7 +1070,10 @@ class Multieis:
         aic = jnp.zeros(self.n_fits)
         start = datetime.now()
         for i, val in enumerate(self.indices):
-            print(f"fitting spectra {val}")
+            if i % 10 == 0:
+                print(
+                    f"fitting spectra {val}"
+                )
             try:
                 pfit, chi2 = self.do_minimize_lstsq(
                     params_init[:, val],
@@ -1265,6 +1268,7 @@ class Multieis:
 
         # Here we loop through the number of boots and
         # run the minimization algorithm using the do_minimize function
+        start = datetime.now()
         par_log_mc = par_log.copy()
         for i in range(self.n_boots):
             sidx = onp.random.choice(idx, replace=True, size=self.num_freq)
@@ -1299,6 +1303,9 @@ class Multieis:
         self.perr = jnp.std(self.popt_mc, ddof=1, axis=0)
         self.chisqr = jnp.mean(self.chisqr_mc, axis=0)
         self.chitot = self.chisqr.copy()
+        print("\nOptimization complete")
+        end = datetime.now()
+        print(f"total time is {end-start}", end=" ")
         return self.popt, self.perr, self.chisqr, self.chitot, self.AIC
 
     def do_minimize(self,
