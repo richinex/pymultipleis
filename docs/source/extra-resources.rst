@@ -23,7 +23,7 @@ Or
     Z_{W} = \sqrt{\frac{R_d}{s C_d}} (\sqrt{R_{d}~sC_{d}})
 
 Where :math:`s = j \omega` with :math:`j` being the imaginary unit and :math:`\omega` the angular frequency.
-:math:`A_{W} has units of :math:`\Omega s^{-0.5}`, :math:`R` has units of Ohms (:math:`\Omega`) and :math:`C` has units of Farads (:math:`F`).
+:math:`A_{W}` has units of :math:`\Omega s^{-0.5}`, :math:`R` has units of Ohms (:math:`\Omega`) and :math:`C` has units of Farads (:math:`F`).
 
 And
 
