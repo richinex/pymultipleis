@@ -80,9 +80,7 @@ We assume that we have our files in the data folder one step above working direc
   (45, 50)
 
 .. important::
-  :code:`pymultipleis` does not offer a preprocessing module since other packages offer this feature.
-  For instance files from different vendors (ZPlot, Gamry, Parstat, Autolab) can be read using the
-  `preprocessing module` offered by `impedancepy <https://impedancepy.readthedocs.io/en/latest/preprocessing.html>`_
+  :code:`pymultipleis` does not offer a module to parse files. However this can easily be done using ``Pandas`` and other available libraries.
 
 Step 3: Define your impedance/admittance model
 ===================================================
@@ -180,7 +178,7 @@ and the :code:`immittance` we are modeling which in this case is the admittance.
    in this `paper <https://doi.org/10.1002/celc.202200109>`_.
    Methods for obtaining the standard deviation of impedance measurements are briefly described under the :ref:`FAQ-label` section.
 
-
+To fit using a different weighting scheme, all we need to is replace the weight argument ``Yerr`` with the string "modulus", "proportional" or None(i.e unit).
 
 Step 5: Fit the model to data
 =======================================
