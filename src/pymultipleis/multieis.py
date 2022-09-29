@@ -619,10 +619,10 @@ class Multieis:
             wrms = self.wrms_func(P[:, i], F, Z[:, i], Zerr_Re[:, i], Zerr_Im[:, i])
             gradsre = grad_func(P[:, i], F)[:self.num_freq]
             gradsim = grad_func(P[:, i], F)[self.num_freq:]
-            rtwre = jnp.diag((1/Zerr_Re[:, i]))
-            rtwim = jnp.diag((1/Zerr_Im[:, i]))
-            vre = rtwre@gradsre
-            vim = rtwim@gradsim
+            diag_wtre_matrix = jnp.diag((1/Zerr_Re[:, i]))
+            diag_wtim_matrix = jnp.diag((1/Zerr_Im[:, i]))
+            vre = diag_wtre_matrix@gradsre
+            vim = diag_wtim_matrix@gradsim
             Q1 , R1 = jnp.linalg.qr(jnp.concatenate([vre , vim] , axis=0))
             try:
                 # Here we check to see if the Hessian matrix is singular or
@@ -1134,10 +1134,10 @@ class Multieis:
 
                 gradsre = grads[:self.num_freq]
                 gradsim = grads[self.num_freq:]
-                rtwre = jnp.diag((1 / self.Zerr_Re[:, val]))
-                rtwim = jnp.diag((1 / self.Zerr_Im[:, val]))
-                vre = rtwre @ gradsre
-                vim = rtwim @ gradsim
+                diag_wtre_matrix = jnp.diag((1 / self.Zerr_Re[:, val]))
+                diag_wtim_matrix = jnp.diag((1 / self.Zerr_Im[:, val]))
+                vre = diag_wtre_matrix @ gradsre
+                vim = diag_wtim_matrix @ gradsim
                 Q1, R1 = jnp.linalg.qr(jnp.concatenate([vre, vim], axis=0))
                 try:
                     invR1 = jnp.linalg.inv(R1)
