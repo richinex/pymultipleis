@@ -61,4 +61,16 @@ Detailed tutorials on other aspects of ``pymultipleis`` can be found in [Example
 Details about the ``pymultipleis`` API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
 
 
-## References
+## Citing this work<a id="citation"></a>
+
+If you use pymultieis for academic research, you may cite the library as follows:
+
+```
+@misc{Chukwu2021,
+  author = {Chukwu, Richard},
+  title = {pymultipleis: a library for fitting a sequence of electrochemical impedance spectra},
+  publisher = {GitHub},
+  year = {2022},
+  url = {https://github.com/richinex/pymultipleis},
+}
+```
