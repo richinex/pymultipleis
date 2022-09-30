@@ -445,14 +445,11 @@ class Multieis:
 
         :returns: A scalar value of the weighted residual mean square
         """
-        n_data = len(f)
-        n_par = len(p)
-        dof = 2 * n_data - (n_par)
         z_concat = jnp.concatenate([z.real, z.imag], axis=0)
         sigma = jnp.concatenate([zerr_re, zerr_im], axis=0)
         z_model = self.func(p, f)
         wrss = jnp.linalg.norm(((z_concat - z_model) / sigma)) ** 2
-        wrms = wrss / dof
+        wrms = wrss / (2 * len(f) - len(p))
         return wrms
 
     def cost_func(self,
@@ -568,7 +565,7 @@ class Multieis:
         except Exception as e:
             print(e.__doc__)
             print(e.message)
-            hess_inv = jnp.ones(len(P_log))
+            hess_inv = jnp.linalg.pinv(hess_mat)
 
         # The covariance matrix of the parameter estimates
         # is (asymptotically) the inverse of the hessian matrix
@@ -580,7 +577,7 @@ class Multieis:
             ])
         perr = perr.copy() * P
         # if the error is nan, a value of 1 is assigned.
-        return jnp.nan_to_num(perr, nan=1.0)
+        return jnp.nan_to_num(perr, nan=1.0e15)
 
     def compute_perr_QR(self,
                         P: jnp.ndarray,
@@ -608,6 +605,11 @@ class Multieis:
 
         :returns: A 2D tensor of the standard error on the parameters
 
+        Ref
+        ----
+        Bates, D. M., Watts, D. G. (1988). Nonlinear regression analysis \
+        and its applications. New York [u.a.]: Wiley. ISBN: 0471816434
+
         """
         def grad_func(p,
                       f
@@ -633,11 +635,11 @@ class Multieis:
                 print(e.__doc__)
                 print(e.message)
                 print(f"\nHessian Matrix is singular for spectra {i}")
-                invR1 = jnp.ones(shape=(self.num_params, self.num_params))
+                invR1 = jnp.linalg.pinv(R1)
 
             perr = perr.at[:, i].set(jnp.linalg.norm(invR1, axis=1)*jnp.sqrt(wrms))
         # if the error is nan, a value of 1 is assigned.
-        return jnp.nan_to_num(perr, nan=1.0)
+        return jnp.nan_to_num(perr, nan=1.0e15)
 
     def train_step(self,
                    step_i,
@@ -1153,10 +1155,14 @@ class Multieis:
                         perr will be assigned a value of ones"""
                         .format(val)
                     )
-                    perr[:, i] = jnp.ones(self.num_params)
+                    invR1 = jnp.linalg.pinv(R1)
+                    perr = perr.at[:, i].set(
+                        jnp.linalg.norm(invR1, axis=1)
+                        * jnp.sqrt(chisqr[i])
+                        )
 
         self.popt = popt.copy()
-        self.perr = perr.copy()
+        self.perr = jnp.nan_to_num(perr.copy(), nan=1.0e15)
         self.chisqr = jnp.mean(chisqr)
         self.chitot = self.chisqr.copy()
         self.AIC = jnp.mean(aic)
@@ -2196,13 +2202,15 @@ class Multieis:
             self.param_idx = [str(i) for i in self.indices]
             params_df = pd.DataFrame(
                 onp.asarray(self.popt.T),
-                columns=[str(i) for i in range(self.num_params)]
+                columns=[i for i in range(self.num_params)]
                 )
-            params_df["Idx"] = self.param_idx
+            params_df['Idx'] = self.param_idx
+            params_df['Idx'] = params_df["Idx"].astype('category')
+            self.params_df = params_df.fillna(0)
             if self.show_errorbar is True:
                 # Plot with error bars
                 self.fig_params = (
-                    params_df.plot(
+                    self.params_df.plot(
                         x="Idx",
                         marker="o",
                         linestyle="--",
@@ -2219,7 +2227,7 @@ class Multieis:
             else:
                 # Plot without error bars
                 self.fig_params = (
-                    params_df.plot(
+                    self.params_df.plot(
                         x="Idx",
                         marker="o",
                         linestyle="--",
@@ -2406,7 +2414,7 @@ class Multieis:
             self.img_path_name = self.get_img_path(fname)
             try:
                 self.plot_params(
-                    show_errorbar=True,
+                    show_errorbar=show_errorbar,
                     labels=self.labels,
                     fpath=self.img_path_name + "_params" + ".png"
                 )
