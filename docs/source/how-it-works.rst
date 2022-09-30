@@ -4,12 +4,12 @@
 How :code:`pymultipleis` works
 =========================================
 
-The batch fitting algorithm implemented in :code:`pymultipleis` is described in the paper
-On the Analysis of Non-stationary Impedance Spectra by Alberto Battistel, Guoqing Du, and Fabio La Mantia.
+The fitting algorithm implemented in :code:`pymultipleis` is described in the [paper](https://doi.org/10.1002/elan.201600260)
+by Alberto Battistel, Guoqing Du, and Fabio La Mantia.
 Fitting is done via complex non-linear optimization of the model parameters using two approaches - deterministic and stochastic.
-The deterministic optimization is based on the TNC/BFGS/L-BFGS solvers provided by the jaxopt library
-which uses the real first and second derivatives computed behind the scenes via autograd.
-The stochastic option uses Adam optimizer from the the jax library.
+The deterministic optimization is based on the TNC/BFGS/L-BFGS solvers from the [Unconstrained optimization API](https://jaxopt.github.io/stable/unconstrained.html)
+provided by the [JAXopt](https://github.com/google/jaxopt) library.
+The stochastic option uses [Adam](https://doi.org/10.48550/arXiv.1412.6980) as implemented in the [JAX optimizers API](https://jax.readthedocs.io/en/latest/jax.example_libraries.optimizers.html).
 
 Rather than rely on the use prefit and use previous approach to batch-fitting,
 the algorithm implemented in pymultieis preserves the correlation between parameters by introducing a custom cost function
@@ -19,8 +19,4 @@ which is a combination of the scaled version of the chisquare used in complex no
 - A smoothing factor.
 
 Minimizing these additional terms allow the algorithm to minimize the number of times the curve changes concavity.
-This allows the minimization algorithm to obtain smoothly varying optimal parameters. The parameters thus obtained can
-now be used as initial guess while the smoothing factor is set to zero. In this way the dependence between the parameters is
-preserved.
-
-
+This allows the minimization algorithm to obtain parameters which smoothly vary as a function of the sequence index.
