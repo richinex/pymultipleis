@@ -5,7 +5,7 @@ docs/source/_build
 docs/source/_templates
 *.pyc
 tests/__pycache__/
-
+dist/
 
 
 #Unit test / coverage reports

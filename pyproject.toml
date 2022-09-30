@@ -36,3 +36,5 @@ docs = ["toml"]
 "Homepage" = "https://github.com/richinex/pymultipleis"
 "Bug Tracker" = "https://github.com/richinex/pymultipleis/issues"
 "Documentation" = "https://pymultipleis.readthedocs.io/en/latest/index.html"
+
+readme = "README.md"
