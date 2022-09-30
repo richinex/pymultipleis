@@ -30,3 +30,8 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
 docs = ["toml"]
+
+[project.urls]
+"Homepage" = "https://github.com/richinex/pymultipleis"
+"Bug Tracker" = "https://github.com/richinex/pymultipleis/issues"
+"Documentation" = "https://pymultipleis.readthedocs.io/en/latest/index.html"
