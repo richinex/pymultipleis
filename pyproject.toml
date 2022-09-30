@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pymultipleis"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Richard Chukwu <richinex@gmail.com>"]
 
@@ -8,10 +8,10 @@ authors = ["Richard Chukwu <richinex@gmail.com>"]
 python = "^3.9"
 matplotlib = "3.6.0"
 scipy = "1.9.1"
-numpy = "^1.23.3"
 pandas = "^1.5.0"
 jax = "^0.3.17"
 jaxopt = "^0.5"
+numpy = "1.23.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
