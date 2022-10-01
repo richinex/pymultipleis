@@ -17,7 +17,7 @@ if os.path.exists(req_path):
 readme_path = os.path.join(folder, "README.md")
 readme_contents = ""
 if os.path.exists(readme_path):
-    with open(readme_path) as fp:
+    with open(readme_path, encoding='utf-8') as fp:
         readme_contents = fp.read().strip()
 
 setup(
@@ -34,8 +34,7 @@ setup(
     package_data={},
     install_requires=install_requires,
     classifiers=[
-        "Intended Audience :: Energy Storage Research/Science",
-        "Topic :: Electrochemical Impedance Spectroscopy :: Minimization",
+        "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.9",
