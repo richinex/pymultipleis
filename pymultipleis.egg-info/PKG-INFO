@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pymultipleis
-Version: 0.1.2
+Version: 0.1.7
 Summary: A library for fitting a sequence of electrochemical impedance spectra.
 Home-page: https://github.com/richinex/pymultipleis
 Author: Richard Chukwu
@@ -18,11 +18,6 @@ Classifier: Programming Language :: Python :: 3.10
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
 License-File: LICENSE.md
-
-<div align="center">
-<img src="https://github.com/richinex/pymultipleis/blob/main/docs/source/_static/z_bode.png" alt="logo"></img>
-</div>
-
 
 # pymultipleis
 

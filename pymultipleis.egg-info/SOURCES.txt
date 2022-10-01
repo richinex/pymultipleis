@@ -7,7 +7,6 @@ README.md
 poetry.lock
 pyproject.toml
 requirements.txt
-setup.cfg
 setup.py
 data/her_50/Y_50.npy
 data/her_50/freq_50.npy
