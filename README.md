@@ -61,6 +61,6 @@ If you use pymultipleis for academic research, you may cite the library as follo
   title = {pymultipleis: a library for fitting a sequence of electrochemical impedance spectra},
   publisher = {GitHub},
   year = {2022},
-  url = {https://github.com/richinex/pymultieis},
+  url = {https://github.com/richinex/pymultipleis},
 }
 ```
