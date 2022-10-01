@@ -37,14 +37,6 @@ six = "*"
 test = ["astroid (<=2.5.3)", "pytest"]
 
 [[package]]
-name = "atomicwrites"
-version = "1.4.1"
-description = "Atomic file writes."
-category = "dev"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
 name = "attrs"
 version = "22.1.0"
 description = "Classes Without Boilerplate"
@@ -155,6 +147,17 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "commonmark"
+version = "0.9.1"
+description = "Python parser for the CommonMark Markdown spec"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.extras]
+test = ["hypothesis (==3.55.3)", "flake8 (==3.7.8)"]
+
+[[package]]
 name = "contourpy"
 version = "1.0.5"
 description = "Python library for calculating contours of 2D quadrilateral grids"
@@ -171,6 +174,25 @@ test-minimal = ["pytest"]
 test = ["isort", "flake8", "pillow", "matplotlib", "pytest"]
 docs = ["sphinx-rtd-theme", "sphinx", "docutils (<0.18)"]
 bokeh = ["selenium", "bokeh"]
+
+[[package]]
+name = "cryptography"
+version = "38.0.1"
+description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+cffi = ">=1.12"
+
+[package.extras]
+docs = ["sphinx (>=1.6.5,!=1.8.0,!=3.1.0,!=3.1.1)", "sphinx-rtd-theme"]
+docstest = ["pyenchant (>=1.6.11)", "twine (>=1.12.0)", "sphinxcontrib-spelling (>=4.0.1)"]
+pep8test = ["black", "flake8", "flake8-import-order", "pep8-naming"]
+sdist = ["setuptools-rust (>=0.11.4)"]
+ssh = ["bcrypt (>=3.1.5)"]
+test = ["pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest-subtests", "pytest-xdist", "pretend", "iso8601", "pytz", "hypothesis (>=1.11.4,!=3.79.2)"]
 
 [[package]]
 name = "cycler"
@@ -383,6 +405,14 @@ docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "jaraco.tideli
 testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
 
 [[package]]
+name = "iniconfig"
+version = "1.1.1"
+description = "iniconfig: brain-dead simple config-ini parsing"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "ipykernel"
 version = "6.15.3"
 description = "IPython Kernel for Jupyter"
@@ -440,6 +470,21 @@ parallel = ["ipyparallel"]
 qtconsole = ["qtconsole"]
 test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test_extra = ["pytest (<7.1)", "pytest-asyncio", "testpath", "curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.19)", "pandas", "trio"]
+
+[[package]]
+name = "jaraco.classes"
+version = "3.2.3"
+description = "Utility functions for Python class constructs"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+more-itertools = "*"
+
+[package.extras]
+docs = ["sphinx (>=3.5)", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "jaraco.tidelift (>=1.4)"]
+testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 (<5)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
 
 [[package]]
 name = "jax"
@@ -510,6 +555,18 @@ parso = ">=0.8.0,<0.9.0"
 [package.extras]
 qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["Django (<3.1)", "colorama", "docopt", "pytest (<7.0.0)"]
+
+[[package]]
+name = "jeepney"
+version = "0.8.0"
+description = "Low-level, pure Python DBus protocol wrapper."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+trio = ["async-generator", "trio"]
+test = ["async-timeout", "trio", "testpath", "pytest-asyncio (>=0.17)", "pytest-trio", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -584,6 +641,25 @@ description = "Pygments theme using JupyterLab CSS variables"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "keyring"
+version = "23.9.3"
+description = "Store and access your passwords safely."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+importlib-metadata = {version = ">=3.6", markers = "python_version < \"3.10\""}
+"jaraco.classes" = "*"
+jeepney = {version = ">=0.4.2", markers = "sys_platform == \"linux\""}
+pywin32-ctypes = {version = "<0.1.0 || >0.1.0,<0.1.1 || >0.1.1", markers = "sys_platform == \"win32\""}
+SecretStorage = {version = ">=3.2", markers = "sys_platform == \"linux\""}
+
+[package.extras]
+docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "jaraco.tidelift (>=1.4)"]
+testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 (<5)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
 
 [[package]]
 name = "kiwisolver"
@@ -878,6 +954,17 @@ docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-issues
 tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
+name = "pkginfo"
+version = "1.8.3"
+description = "Query metadatdata from sdists / bdists / installed packages."
+category = "dev"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+
+[package.extras]
+testing = ["nose", "coverage"]
+
+[[package]]
 name = "platformdirs"
 version = "2.5.2"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -1032,25 +1119,23 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "pytest"
-version = "5.4.3"
+version = "7.1.3"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7"
 
 [package.dependencies]
-atomicwrites = {version = ">=1.0", markers = "sys_platform == \"win32\""}
-attrs = ">=17.4.0"
+attrs = ">=19.2.0"
 colorama = {version = "*", markers = "sys_platform == \"win32\""}
-more-itertools = ">=4.0.0"
+iniconfig = "*"
 packaging = "*"
-pluggy = ">=0.12,<1.0"
-py = ">=1.5.0"
-wcwidth = "*"
+pluggy = ">=0.12,<2.0"
+py = ">=1.8.2"
+tomli = ">=1.0.0"
 
 [package.extras]
-checkqa-mypy = ["mypy (==v0.761)"]
-testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
+testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
 
 [[package]]
 name = "python-dateutil"
@@ -1080,6 +1165,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "pywin32-ctypes"
+version = "0.2.0"
+description = ""
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
@@ -1100,6 +1193,22 @@ cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 py = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
+name = "readme-renderer"
+version = "37.2"
+description = "readme_renderer is a library for rendering \"readme\" descriptions for Warehouse"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+bleach = ">=2.1.0"
+docutils = ">=0.13.1"
+Pygments = ">=2.5.1"
+
+[package.extras]
+md = ["cmarkgfm (>=0.8.0)"]
+
+[[package]]
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
@@ -1118,6 +1227,43 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "requests-toolbelt"
+version = "0.9.1"
+description = "A utility belt for advanced users of python-requests"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = ">=2.0.1,<3.0.0"
+
+[[package]]
+name = "rfc3986"
+version = "2.0.0"
+description = "Validating URI References per RFC 3986"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+idna2008 = ["idna"]
+
+[[package]]
+name = "rich"
+version = "12.5.1"
+description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
+category = "dev"
+optional = false
+python-versions = ">=3.6.3,<4.0.0"
+
+[package.dependencies]
+commonmark = ">=0.9.0,<0.10.0"
+pygments = ">=2.6.0,<3.0.0"
+
+[package.extras]
+jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
+
+[[package]]
 name = "scipy"
 version = "1.9.1"
 description = "SciPy: Scientific Library for Python"
@@ -1127,6 +1273,18 @@ python-versions = ">=3.8,<3.12"
 
 [package.dependencies]
 numpy = ">=1.18.5,<1.25.0"
+
+[[package]]
+name = "secretstorage"
+version = "3.3.3"
+description = "Python bindings to FreeDesktop.org Secret Service API"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+cryptography = ">=2.0"
+jeepney = ">=0.6"
 
 [[package]]
 name = "setuptools-scm"
@@ -1377,6 +1535,25 @@ python-versions = ">=3.7"
 test = ["pre-commit", "pytest"]
 
 [[package]]
+name = "twine"
+version = "4.0.1"
+description = "Collection of utilities for publishing packages on PyPI"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+importlib-metadata = ">=3.6"
+keyring = ">=15.1"
+pkginfo = ">=1.8.1"
+readme-renderer = ">=35.0"
+requests = ">=2.20"
+requests-toolbelt = ">=0.8.0,<0.9.0 || >0.9.0"
+rfc3986 = ">=1.4.0"
+rich = ">=12.0.0"
+urllib3 = ">=1.26.0"
+
+[[package]]
 name = "typing-extensions"
 version = "4.3.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -1448,14 +1625,13 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "0ffc9d82f48a5a816a109473c9171e91465b63c24e63f2cf8581439a72c069c7"
+content-hash = "5585edf02f650b546429504e9b4c9dbe27bbf15a06e213d16cccd4f7d67a18ec"
 
 [metadata.files]
 absl-py = []
 alabaster = []
 appnope = []
 asttokens = []
-atomicwrites = []
 attrs = []
 babel = []
 backcall = []
@@ -1466,7 +1642,9 @@ cffi = []
 cfgv = []
 charset-normalizer = []
 colorama = []
+commonmark = []
 contourpy = []
+cryptography = []
 cycler = []
 debugpy = []
 decorator = []
@@ -1485,17 +1663,21 @@ idna = []
 imagesize = []
 importlib-metadata = []
 importlib-resources = []
+iniconfig = []
 ipykernel = []
 ipython = []
+"jaraco.classes" = []
 jax = []
 jaxlib = []
 jaxopt = []
 jedi = []
+jeepney = []
 jinja2 = []
 jsonschema = []
 jupyter-client = []
 jupyter-core = []
 jupyterlab-pygments = []
+keyring = []
 kiwisolver = []
 lxml = []
 markupsafe = []
@@ -1519,6 +1701,7 @@ parso = []
 pexpect = []
 pickleshare = []
 pillow = []
+pkginfo = []
 platformdirs = []
 pluggy = []
 pockets = []
@@ -1541,10 +1724,16 @@ python-dateutil = [
 ]
 pytz = []
 pywin32 = []
+pywin32-ctypes = []
 pyyaml = []
 pyzmq = []
+readme-renderer = []
 requests = []
+requests-toolbelt = []
+rfc3986 = []
+rich = []
 scipy = []
+secretstorage = []
 setuptools-scm = []
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
@@ -1571,6 +1760,7 @@ tomli = [
 ]
 tornado = []
 traitlets = []
+twine = []
 typing-extensions = []
 urllib3 = []
 virtualenv = []

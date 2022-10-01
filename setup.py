@@ -29,7 +29,7 @@ setup(
     url="https://github.com/richinex/pymultipleis",
     long_description=readme_contents,
     long_description_content_type="text/markdown",
-    license="MIT License",
+    license="MIT",
     packages=find_packages(),
     package_data={},
     install_requires=install_requires,

@@ -1,10 +1,4 @@
-<div align="center">
-<img src="https://github.com/richinex/pymultipleis/blob/main/docs/source/_static/z_bode.png" alt="logo"></img>
-</div>
-
-
-pymultipleis
-=============
+# pymultipleis
 
 [**Installation**](#installation)
 | [**Examples**](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples)
@@ -37,29 +31,27 @@ pymultipleis requires the following:
 
 Installing JAX on Linux is natively supported by the JAX team and instructions to do so can be found [here](https://github.com/google/jax#installation).
 
-For Windows systems, the officially supported method is building directly from the source code (see [Building JAX from source](https://jax.readthedocs.io/en/latest/developer.html#building-from-source)).
+For Windows systems, the officially supported method is building directly from the source code - see [Building JAX from source](https://jax.readthedocs.io/en/latest/developer.html#building-from-source).
 However, it might be easier to use pre-built JAX wheels which can be found in this [Github repo](https://github.com/cloudhan/jax-windows-builder). Further details
 on Windows installation is also provided in this [repo](https://github.com/Dipolar-Quantum-Gases/jaxfit/blob/main/README.md).
 
-
 After installing the dependencies, you can now install pymultipleis via the following pip command
 
-```
-pip install pymultipleis
+```bash
+$ pip install pymultipleis
 ```
 
 [Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/quick-start-guide.html#) contains a quick start guide to
-fitting your data with ``pymultipleis``.
+fitting your data with pymultipleis.
 
 
 ## Examples
 
-Detailed tutorials on other aspects of ``pymultipleis`` can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
+Detailed tutorials on other aspects of pymultipleis can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
 
 ## Documentation
 
-Details about the ``pymultipleis`` API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
-
+Details about the pymultipleis API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
 
 ## Citing this work<a id="citation"></a>
 
