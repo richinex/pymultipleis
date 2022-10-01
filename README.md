@@ -4,7 +4,7 @@
 [**Installation**](#installation)
 | [**Examples**](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples)
 | [**Documentation**](https://pymultipleis.readthedocs.io/en/latest/index.html)
-| [**References**](#references)
+| [**Citing this work**](#citation)
 
 
 A library for fitting a sequence of electrochemical impedance spectra.
@@ -24,11 +24,6 @@ pymultipleis requires the following:
 
 -   Python (>=3.9)
 -   [JAX](https://jax.readthedocs.io/en/latest/) (>=0.3.17)
--   [JAXopt](https://github.com/google/jaxopt/blob/main/README.md) (>=0.5)
--   Matplotlib (>=3.6.0)
--   NumPy (>=1.23.3)
--   Pandas (>=1.4.4)
--   SciPy (>=1.9.1)
 
 Installing JAX on Linux is natively supported by the JAX team and instructions to do so can be found [here](https://github.com/google/jax#installation).
 
@@ -37,7 +32,7 @@ However, it might be easier to use pre-built JAX wheels which can be found in th
 on Windows installation is also provided in this [repo](https://github.com/Dipolar-Quantum-Gases/jaxfit/blob/main/README.md).
 
 
-After installing the dependencies, you can now install pymultipleis via the following pip command
+After installing JAX, you can now install pymultipleis via the following pip command
 
 ```bash
 pip install pymultipleis
@@ -49,7 +44,7 @@ fitting your data with ``pymultipleis``.
 
 ## Examples
 
-Detailed tutorials on other aspects of ``pymultipleis`` can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
+Jupyter notebooks which cover several aspects of ``pymultipleis`` can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
 
 ## Documentation
 
@@ -58,10 +53,10 @@ Details about the ``pymultipleis`` API, can be found in the [reference documenta
 
 ## Citing this work<a id="citation"></a>
 
-If you use pymultieis for academic research, you may cite the library as follows:
+If you use pymultipleis for academic research, you may cite the library as follows:
 
 ```
-@misc{Chukwu2021,
+@misc{Chukwu2022,
   author = {Chukwu, Richard},
   title = {pymulties: a library for fitting a sequence of electrochemical impedance spectra},
   publisher = {GitHub},
