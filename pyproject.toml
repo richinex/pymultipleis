@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pymultipleis"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["Richard Chukwu <richinex@gmail.com>"]
 
