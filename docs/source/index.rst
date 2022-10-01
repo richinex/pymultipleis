@@ -37,8 +37,8 @@ Installation
 pymultipleis requires the following dependencies:
 
 -   Python (>=3.9)
--   jax (>=0.3.17)
--   jaxopt (>=0.5)
+-   JAX (>=0.3.17)
+-   JAXopt (>=0.5)
 -   Matplotlib (>=3.6.0)
 -   NumPy (>=1.23.3)
 -   Pandas (>=1.4.4)
