@@ -1,9 +1,10 @@
+
 # pymultipleis
 
 [**Installation**](#installation)
 | [**Examples**](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples)
 | [**Documentation**](https://pymultipleis.readthedocs.io/en/latest/index.html)
-| [**Citing this work**](#citation)
+| [**References**](#references)
 
 
 A library for fitting a sequence of electrochemical impedance spectra.
@@ -31,27 +32,29 @@ pymultipleis requires the following:
 
 Installing JAX on Linux is natively supported by the JAX team and instructions to do so can be found [here](https://github.com/google/jax#installation).
 
-For Windows systems, the officially supported method is building directly from the source code - see [Building JAX from source](https://jax.readthedocs.io/en/latest/developer.html#building-from-source).
+For Windows systems, the officially supported method is building directly from the source code (see [Building JAX from source](https://jax.readthedocs.io/en/latest/developer.html#building-from-source)).
 However, it might be easier to use pre-built JAX wheels which can be found in this [Github repo](https://github.com/cloudhan/jax-windows-builder). Further details
 on Windows installation is also provided in this [repo](https://github.com/Dipolar-Quantum-Gases/jaxfit/blob/main/README.md).
+
 
 After installing the dependencies, you can now install pymultipleis via the following pip command
 
 ```bash
-$ pip install pymultipleis
+pip install pymultipleis
 ```
 
 [Getting started with pymultipleis](https://pymultipleis.readthedocs.io/en/latest/quick-start-guide.html#) contains a quick start guide to
-fitting your data with pymultipleis.
+fitting your data with ``pymultipleis``.
 
 
 ## Examples
 
-Detailed tutorials on other aspects of pymultipleis can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
+Detailed tutorials on other aspects of ``pymultipleis`` can be found in [Examples](https://github.com/richinex/pymultipleis/tree/main/docs/source/examples).
 
 ## Documentation
 
-Details about the pymultipleis API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
+Details about the ``pymultipleis`` API, can be found in the [reference documentation](https://pymultipleis.readthedocs.io/en/latest/index.html).
+
 
 ## Citing this work<a id="citation"></a>
 
@@ -60,9 +63,9 @@ If you use pymultieis for academic research, you may cite the library as follows
 ```
 @misc{Chukwu2021,
   author = {Chukwu, Richard},
-  title = {pymultipleis: a library for fitting a sequence of electrochemical impedance spectra},
+  title = {pymulties: a library for fitting a sequence of electrochemical impedance spectra},
   publisher = {GitHub},
   year = {2022},
-  url = {https://github.com/richinex/pymultipleis},
+  url = {https://github.com/richinex/pymultieis},
 }
 ```
