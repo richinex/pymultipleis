@@ -272,9 +272,10 @@ all_methods = ['TNC', 'BFGS', 'L-BFGS-B']
 
 
 @pytest.mark.parametrize("method, weight", list(zip(all_methods, all_weights)))
-def test_equality_of_wrms_func_and_cost_func(method, weight):
-    """Test for equality of value between wrms_func
-       and cost_func when smoothing is zero."""
+def test_equality_of_compute_wrms_and_compute_total_obj(method, weight):
+    """Test for equality of the return values from
+       compute_wrms and compute_total_obj functions
+       when the smoothing is set to zero"""
 
     multieis_instance = pym.Multieis(
         p0,
