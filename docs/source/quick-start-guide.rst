@@ -121,7 +121,11 @@ An even simpler way would be to predefine a function ``par`` which computes the 
 
 .. code-block:: python
 
-  par = lambda a, b: 1/(1/a + 1/b) # Defines the total impedance of circuit elements in parallel
+  def par(a, b):
+    """
+    Defines the total impedance of two circuit elements in parallel
+    """
+    return 1/(1/a + 1/b)
 
   def redox(p, f):
       w = 2*jnp.pi*f                      # Angular frequency

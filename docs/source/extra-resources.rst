@@ -11,7 +11,7 @@ Distributed Elements
 Semi-infinite (planar infinite length) Warburg
 ***************************************************
 
-Describes linear diffusion from a medium with lebgth which can be approximated
+Describes linear diffusion from a medium with length which can be approximated
 as infinite.
 
 .. math:: Z_{W} = \frac{A_W}{\sqrt{w}}(1-j)
