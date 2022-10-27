@@ -287,8 +287,6 @@ class Multieis:
             .toarray()
         )
         self.d2m[0, :4] = [2, -5, 4, -1]
-        for k in range(1, self.num_eis - 1):
-            self.d2m[k, k - 1:k + 2] = [1, -2, 1]
         self.d2m[-1, -4:] = [-1, 4, -5, 2]
         return jnp.asarray(self.d2m)
 
@@ -348,13 +346,13 @@ class Multieis:
             ))
         return par_ext
 
-    def wrss_func(self,
-                  p: jnp.ndarray,
-                  f: jnp.ndarray,
-                  z: jnp.ndarray,
-                  zerr_re: jnp.ndarray,
-                  zerr_im: jnp.ndarray
-                  ) -> jnp.ndarray:
+    def compute_wrss(self,
+                     p: jnp.ndarray,
+                     f: jnp.ndarray,
+                     z: jnp.ndarray,
+                     zerr_re: jnp.ndarray,
+                     zerr_im: jnp.ndarray
+                     ) -> jnp.ndarray:
 
         """
         Computes the scalar weighted residual sum of squares \
@@ -382,15 +380,15 @@ class Multieis:
         wrss = jnp.linalg.norm(((z_concat - z_model) / sigma)) ** 2
         return wrss
 
-    def residual_func(self,
-                      p: jnp.ndarray,
-                      f: jnp.ndarray,
-                      z: jnp.ndarray,
-                      zerr_re: jnp.ndarray,
-                      zerr_im: jnp.ndarray,
-                      lb,
-                      ub
-                      ) -> jnp.ndarray:
+    def compute_rss(self,
+                    p: jnp.ndarray,
+                    f: jnp.ndarray,
+                    z: jnp.ndarray,
+                    zerr_re: jnp.ndarray,
+                    zerr_im: jnp.ndarray,
+                    lb,
+                    ub
+                    ) -> jnp.ndarray:
         """
         Computes the vector of weighted residuals. \
         This is the objective function passed to the least squares solver.
@@ -421,13 +419,13 @@ class Multieis:
         residuals = 0.5*((z_concat - z_model) / sigma)
         return residuals
 
-    def wrms_func(self,
-                  p: jnp.ndarray,
-                  f: jnp.ndarray,
-                  z: jnp.ndarray,
-                  zerr_re: jnp.ndarray,
-                  zerr_im: jnp.ndarray
-                  ) -> jnp.ndarray:
+    def compute_wrms(self,
+                     p: jnp.ndarray,
+                     f: jnp.ndarray,
+                     z: jnp.ndarray,
+                     zerr_re: jnp.ndarray,
+                     zerr_im: jnp.ndarray
+                     ) -> jnp.ndarray:
         """
         Computes the weighted residual mean square
 
@@ -452,16 +450,16 @@ class Multieis:
         wrms = wrss / (2 * len(f) - len(p))
         return wrms
 
-    def cost_func(self,
-                  P: jnp.ndarray,
-                  F: jnp.ndarray,
-                  Z: jnp.ndarray,
-                  Zerr_Re: jnp.ndarray,
-                  Zerr_Im: jnp.ndarray,
-                  LB: jnp.ndarray,
-                  UB: jnp.ndarray,
-                  smf: jnp.ndarray
-                  ) -> jnp.ndarray:
+    def compute_total_obj(self,
+                          P: jnp.ndarray,
+                          F: jnp.ndarray,
+                          Z: jnp.ndarray,
+                          Zerr_Re: jnp.ndarray,
+                          Zerr_Im: jnp.ndarray,
+                          LB: jnp.ndarray,
+                          UB: jnp.ndarray,
+                          smf: jnp.ndarray
+                          ) -> jnp.ndarray:
         """
         This function computes the total scalar objective function to minimize
         which is a combination of the weighted residual sum of squares
@@ -508,7 +506,7 @@ class Multieis:
         smf_1 = jnp.where(jnp.isinf(smf), 0.0, smf)
         chi_smf = ((((self.d2m @ P_log.T) * (self.d2m @ P_log.T)))
                    .sum(0) * smf_1).sum()
-        wrss_tot = jax.vmap(self.wrss_func, in_axes=(1, None, 1, 1, 1))(
+        wrss_tot = jax.vmap(self.compute_wrss, in_axes=(1, None, 1, 1, 1))(
             P_norm, F, Z, Zerr_Re, Zerr_Im
         )
         return (jnp.sum(wrss_tot) + chi_smf)
@@ -555,8 +553,8 @@ class Multieis:
         """
         P_log = self.convert_to_internal(P)
 
-        chitot = self.cost_func(P_log, F, Z, Zerr_Re, Zerr_Im, LB, UB, smf)/self.dof
-        hess_mat = jax.hessian(self.cost_func)(P_log, F, Z, Zerr_Re, Zerr_Im, LB, UB, smf)
+        chitot = self.compute_total_obj(P_log, F, Z, Zerr_Re, Zerr_Im, LB, UB, smf)/self.dof
+        hess_mat = jax.hessian(self.compute_total_obj)(P_log, F, Z, Zerr_Re, Zerr_Im, LB, UB, smf)
         try:
             # Here we check to see if the Hessian matrix is singular \
             # or ill-conditioned since this makes accurate computation of the
@@ -618,7 +616,7 @@ class Multieis:
 
         perr = jnp.zeros(shape=(self.num_params, self.num_eis))
         for i in range(self.num_eis):
-            wrms = self.wrms_func(P[:, i], F, Z[:, i], Zerr_Re[:, i], Zerr_Im[:, i])
+            wrms = self.compute_wrms(P[:, i], F, Z[:, i], Zerr_Re[:, i], Zerr_Im[:, i])
             gradsre = grad_func(P[:, i], F)[:self.num_freq]
             gradsim = grad_func(P[:, i], F)[self.num_freq:]
             diag_wtre_matrix = jnp.diag((1/Zerr_Re[:, i]))
@@ -654,7 +652,7 @@ class Multieis:
                    ):
         net_params = self.get_params(opt_state)
         self.loss, self.grads = jax.value_and_grad(
-            self.cost_func, argnums=0
+            self.compute_total_obj, argnums=0
             )(
                 net_params,
                 F,
@@ -694,7 +692,7 @@ class Multieis:
         :returns: A value for the AIC
         """
 
-        wrss = self.wrss_func(p, f, z, zerr_re, zerr_im)
+        wrss = self.compute_wrss(p, f, z, zerr_re, zerr_im)
         if self.weight_name == "sigma":
             m2lnL = (
                 (2 * self.num_freq) * jnp.log(2 * jnp.pi)
@@ -766,12 +764,11 @@ class Multieis:
             )
             print("\nUsing initial")
 
-        # Optimizer 1 uses the BFGS algorithm
         start = datetime.now()
 
         solver = jaxopt.ScipyMinimize(
             method=self.method,
-            fun=jax.jit(self.cost_func),
+            fun=jax.jit(self.compute_total_obj),
             dtype='float64',
             tol=1e-14,
             maxiter=n_iter,
@@ -803,7 +800,7 @@ class Multieis:
 
         self.chisqr = (
             jnp.mean(
-                jax.vmap(self.wrms_func, in_axes=(1, None, 1, 1, 1))(
+                jax.vmap(self.compute_wrms, in_axes=(1, None, 1, 1, 1))(
                     self.popt, self.F, self.Z, self.Zerr_Re, self.Zerr_Im
                 )
             )
@@ -902,7 +899,7 @@ class Multieis:
             self.smf,
         )
         self.chisqr = jnp.mean(
-            jax.vmap(self.wrms_func, in_axes=(1, None, 1, 1, 1))(
+            jax.vmap(self.compute_wrms, in_axes=(1, None, 1, 1, 1))(
                 self.popt, self.F, self.Z, self.Zerr_Re, self.Zerr_Im
             )
         )
@@ -962,7 +959,7 @@ class Multieis:
         start = datetime.now()
         solver = jaxopt.ScipyMinimize(
             method=self.method,
-            fun=jax.jit(self.cost_func),
+            fun=jax.jit(self.compute_total_obj),
             dtype='float64',
             tol=1e-14,
             maxiter=n_iter
@@ -994,7 +991,7 @@ class Multieis:
 
         self.chisqr = (
             jnp.mean(
-                jax.vmap(self.wrms_func, in_axes=(1, None, 1, 1, 1))(
+                jax.vmap(self.compute_wrms, in_axes=(1, None, 1, 1, 1))(
                     self.popt, self.F, self.Z, self.Zerr_Re, self.Zerr_Im
                 )
             )
@@ -1087,7 +1084,7 @@ class Multieis:
                 )
             except ValueError:
                 pfit = self.encode(params_init[:, val], self.lb, self.ub)
-                chi2 = self.residual_func(
+                chi2 = self.compute_rss(
                     params_init[:, val],
                     self.F,
                     self.Z[:, val],
@@ -1109,7 +1106,7 @@ class Multieis:
                 self.Zerr_Re[:, val],
                 self.Zerr_Im[:, val],
             ))
-            jac = self.jac_fun(
+            jac = self.compute_jac(
                 params_init[:, val],
                 self.F,
                 self.Z[:, val],
@@ -1211,7 +1208,7 @@ class Multieis:
             )
 
         self.n_boots = n_boots
-        wrms = jax.vmap(self.wrms_func, in_axes=(1, None, 1, 1, 1))(
+        wrms = jax.vmap(self.compute_wrms, in_axes=(1, None, 1, 1, 1))(
             self.popt, self.F, self.Z, self.Zerr_Re, self.Zerr_Im
         )
 
@@ -1351,7 +1348,7 @@ class Multieis:
         """
         solver = jaxopt.ScipyMinimize(
             method="TNC",
-            fun=jax.jit(self.cost_func),
+            fun=jax.jit(self.compute_total_obj),
             dtype='float64',
             tol=1e-14,
             maxiter=5000
@@ -1368,15 +1365,15 @@ class Multieis:
             )
         return sol
 
-    def jac_fun(self,
-                p: jnp.ndarray,
-                f: jnp.ndarray,
-                z: jnp.ndarray,
-                zerr_re: jnp.ndarray,
-                zerr_im: jnp.ndarray,
-                lb: jnp.ndarray,
-                ub: jnp.ndarray,
-                ) -> jnp.ndarray:
+    def compute_jac(self,
+                    p: jnp.ndarray,
+                    f: jnp.ndarray,
+                    z: jnp.ndarray,
+                    zerr_re: jnp.ndarray,
+                    zerr_im: jnp.ndarray,
+                    lb: jnp.ndarray,
+                    ub: jnp.ndarray,
+                    ) -> jnp.ndarray:
         """
         Computes the Jacobian of the least squares \
         objective function w.r.t the parameters
@@ -1402,7 +1399,7 @@ class Multieis:
         :returns:  Returns the Jacobian matrix
         """
         return jax.jacobian(
-            jax.jit(self.residual_func))(p, f, z, zerr_re, zerr_im, lb, ub)
+            jax.jit(self.compute_rss))(p, f, z, zerr_re, zerr_im, lb, ub)
 
     def do_minimize_lstsq(self,
                           p: jnp.ndarray,
@@ -1444,12 +1441,12 @@ class Multieis:
         # lm_sol = jax.jit(lm.run)(p, f, z, zerr_re, zerr_im, lb, ub)
         # return lm_sol.params, lm_sol.state.residual
         res = scipy.optimize.least_squares(
-            jax.jit(self.residual_func),
+            jax.jit(self.compute_rss),
             p,
             args=(f, z, zerr_re, zerr_im, lb, ub),
             method='trf',
             tr_solver='lsmr',
-            jac=self.jac_fun
+            jac=self.compute_jac
             )
         return res.x, res.fun
 
