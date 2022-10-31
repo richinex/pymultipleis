@@ -27,7 +27,7 @@ matplotlib = "3.6.0"
 scipy = "1.9.1"
 pandas = "^1.5.0"
 jax = "^0.3.17"
-jaxopt = "^0.5"
+jaxopt = "0.5.5"
 numpy = "^1.23.3"
 
 [tool.poetry.dev-dependencies]
