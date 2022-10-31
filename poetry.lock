@@ -242,7 +242,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "etils"
-version = "0.8.0"
+version = "0.9.0"
 description = "Collection of common python utils"
 category = "main"
 optional = false
@@ -255,20 +255,21 @@ typing_extensions = {version = "*", optional = true, markers = "extra == \"epath
 zipp = {version = "*", optional = true, markers = "extra == \"epath\""}
 
 [package.extras]
-lazy-imports = ["etils"]
-etree-tf = ["etils", "tf-nightly"]
-etree-jax = ["etils", "jax"]
-etree-dm = ["etils", "dm-tree"]
-etree = ["etils", "etils", "etils", "etils"]
-etqdm = ["etils", "tqdm", "absl-py"]
-epy = ["typing-extensions"]
-epath = ["etils", "zipp", "typing-extensions", "importlib-resources"]
-enp = ["etils", "numpy"]
-edc = ["etils"]
-ecolab = ["etils", "etils", "mediapy", "numpy", "jupyter"]
-dev = ["chex", "yapf", "pylint (>=2.6.0)", "pytest-xdist", "pytest-subtests", "pytest"]
+all = ["etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils"]
 array-types = ["etils"]
-all = ["etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils", "etils"]
+dev = ["pytest", "pytest-subtests", "pytest-xdist", "pylint (>=2.6.0)", "yapf", "chex"]
+eapp = ["absl-py", "simple-parsing"]
+ecolab = ["jupyter", "numpy", "mediapy", "etils", "etils"]
+edc = ["typing-extensions", "etils"]
+enp = ["numpy", "etils"]
+epath = ["importlib-resources", "typing-extensions", "zipp", "etils"]
+epy = ["typing-extensions"]
+etqdm = ["absl-py", "tqdm", "etils"]
+etree = ["etils", "etils", "etils", "etils"]
+etree-dm = ["dm-tree", "etils"]
+etree-jax = ["jax", "etils"]
+etree-tf = ["tf-nightly", "etils"]
+lazy-imports = ["etils"]
 
 [[package]]
 name = "executing"
@@ -502,7 +503,7 @@ scipy = ">=1.5"
 
 [[package]]
 name = "jaxopt"
-version = "0.5"
+version = "0.5.5"
 description = "Hardware accelerated, batchable and differentiable optimizers in JAX."
 category = "main"
 optional = false
@@ -1469,7 +1470,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "0d187126900b99bf63b6bcb33c37bb91bf594baa5c9328937a5700685379b6ac"
+content-hash = "727d498080bc300f9abf8d706226ec524bb13e42fd40f433883d029f1758c238"
 
 [metadata.files]
 absl-py = []
