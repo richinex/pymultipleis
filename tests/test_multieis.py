@@ -1,4 +1,4 @@
-import pymultipleis.multieis as pym
+import pymultipleis as pym
 import numpy as onp
 import jax.numpy as jnp
 import os
@@ -303,11 +303,11 @@ def test_save_and_read_results(rootdir):
         weight='modulus',
         immittance='admittance'
         )
-    popt, perr, chisqr, chitot, AIC = multieis_instance.fit_simultaneous(method='TNC')
-    popt_test_file = os.path.join(rootdir, 'test_results/results/test_results_popt.npy')
-    perr_test_file = os.path.join(rootdir, 'test_results/results/test_results_perr.npy')
-    popt_test = onp.load(popt_test_file)
-    perr_test = onp.load(perr_test_file)
-    assert onp.allclose(onp.asarray(popt), popt_test, rtol=1e-3, atol=1e-3, equal_nan=True)
-    assert onp.allclose(onp.asarray(perr), perr_test, rtol=1e-3, atol=1e-3, equal_nan=True)
-    assert onp.allclose(popt_test.shape, perr_test.shape, rtol=1e-3, atol=1e-3, equal_nan=True)
+    popt, perr, chisqr, chitot, AIC = multieis_instance.fit_simultaneous(method='tnc')
+    popt_true_file = os.path.join(rootdir, 'test_results/results/popt_true.npy')
+    perr_true_file = os.path.join(rootdir, 'test_results/results/perr_true.npy')
+    popt_true = onp.load(popt_true_file)
+    perr_true = onp.load(perr_true_file)
+    assert onp.allclose(onp.asarray(popt), popt_true, rtol=1e-3, atol=1e-3, equal_nan=True)
+    assert onp.allclose(onp.asarray(perr), perr_true, rtol=1e-3, atol=1e-3, equal_nan=True)
+    assert onp.allclose(popt.shape, perr_true.shape, equal_nan=True)
