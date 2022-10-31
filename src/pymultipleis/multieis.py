@@ -1,12 +1,12 @@
 import os
+import scipy
+import scipy.sparse as sps
 import jax
 import jaxopt
 import jax.numpy as jnp
 from jax.example_libraries import optimizers as jax_opt
 import numpy as onp
 import pandas as pd
-import scipy
-import scipy.sparse as sps
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import logging
@@ -1498,7 +1498,7 @@ class Multieis:
                         z: jnp.ndarray,
                         ) -> jnp.ndarray:
         """
-        :param z: Takes a real vector of length 2n \
+        :param z: real vector of length 2n \
                   where n is the number of frequencies
 
         :returns: Returns a complex vector of length n.
@@ -1510,7 +1510,7 @@ class Multieis:
                         ) -> jnp.ndarray:
 
         """
-        :param z: Takes a complex vector of length n \
+        :param z: complex vector of length n \
                   where n is the number of frequencies
 
         :returns: Returns a real vector of length 2n
