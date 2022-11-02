@@ -498,12 +498,14 @@ class Multieis:
         """
         P_log = jnp.take(P, self.gather_indices)
 
+        up = (10 ** P_log)
+
         P_norm = (
             jnp.take(LB, self.gather_indices)
-            + jnp.power(10, jnp.take(P, self.gather_indices))
+            + up
         ) / (
             1
-            + (jnp.power(10, jnp.take(P, self.gather_indices)))
+            + up
             / jnp.take(UB, self.gather_indices)
         )
 
