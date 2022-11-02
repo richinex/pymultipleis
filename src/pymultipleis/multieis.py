@@ -154,8 +154,15 @@ class Multieis:
 
         self.smf = smf
 
+        self.smf_1 = jnp.where(jnp.isinf(self.smf), 0.0, self.smf)
+
         self.kvals = list(jnp.cumsum(jnp.insert(
             jnp.where(jnp.isinf(self.smf), 1, self.num_eis), 0, 0)))
+
+        self.gather_indices = jnp.zeros(shape=(self.num_params, self.num_eis), dtype=jnp.int64)
+        for i in range(self.num_params):
+            self.gather_indices = \
+                self.gather_indices.at[i, :].set(jnp.arange(self.kvals[i], self.kvals[i+1]))
 
         self.d2m = self.get_fd()
         self.dof = (2 * self.num_freq * self.num_eis) - \
@@ -489,23 +496,19 @@ class Multieis:
         :returns: A scalar value of the total objective function
 
         """
-        P_log = jnp.zeros(shape=(self.num_params, self.num_eis))
-        P_norm = jnp.zeros(shape=(self.num_params, self.num_eis))
-        for i in range(self.num_params):
-            P_log = P_log.at[i, :].set(P[self.kvals[i]:self.kvals[i + 1]])
+        P_log = jnp.take(P, self.gather_indices)
 
-            P_norm = P_norm.at[i, :].set((
-                LB[self.kvals[i]:self.kvals[i + 1]]
-                + jnp.power(10, P[self.kvals[i]:self.kvals[i + 1]])
-            ) / (
-                1
-                + (jnp.power(10, P[self.kvals[i]:self.kvals[i + 1]]))
-                / UB[self.kvals[i]:self.kvals[i + 1]]
-            ))
+        P_norm = (
+            jnp.take(LB, self.gather_indices)
+            + jnp.power(10, jnp.take(P, self.gather_indices))
+        ) / (
+            1
+            + (jnp.power(10, jnp.take(P, self.gather_indices)))
+            / jnp.take(UB, self.gather_indices)
+        )
 
-        smf_1 = jnp.where(jnp.isinf(smf), 0.0, smf)
         chi_smf = ((((self.d2m @ P_log.T) * (self.d2m @ P_log.T)))
-                   .sum(0) * smf_1).sum()
+                   .sum(0) * smf).sum()
         wrss_tot = jax.vmap(self.compute_wrss, in_axes=(1, None, 1, 1, 1))(
             P_norm, F, Z, Zerr_Re, Zerr_Im
         )
@@ -781,7 +784,7 @@ class Multieis:
             self.Zerr_Im,
             self.lb_vec,
             self.ub_vec,
-            self.smf
+            self.smf_1
             )
 
         self.popt = self.convert_to_external(self.sol.params)
@@ -795,7 +798,7 @@ class Multieis:
             self.Zerr_Im,
             self.lb_vec,
             self.ub_vec,
-            self.smf,
+            self.smf_1,
         )
 
         self.chisqr = (
@@ -874,7 +877,7 @@ class Multieis:
                 self.Zerr_Im,
                 self.lb_vec,
                 self.ub_vec,
-                self.smf
+                self.smf_1
                 )
             self.losses.append(float(self.loss))
             if epoch % int(self.num_epochs/10) == 0:
@@ -896,7 +899,7 @@ class Multieis:
             self.Zerr_Im,
             self.lb_vec,
             self.ub_vec,
-            self.smf,
+            self.smf_1,
         )
         self.chisqr = jnp.mean(
             jax.vmap(self.compute_wrms, in_axes=(1, None, 1, 1, 1))(
@@ -1290,7 +1293,7 @@ class Multieis:
                 Zerr_Im_mc,
                 self.lb_vec,
                 self.ub_vec,
-                self.smf,
+                self.smf_1,
             )
 
             popt_log_mc = popt_log_mc.at[i, :].set(res.params)
