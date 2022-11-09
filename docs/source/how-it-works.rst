@@ -4,7 +4,7 @@
 How :code:`pymultipleis` works
 =========================================
 
-The fitting algorithm implemented in :code:`pymultipleis` is described in the `paper <https://doi.org/10.1002/elan.201600260>`_`
+The fitting algorithm implemented in :code:`pymultipleis` is described in the `paper <https://doi.org/10.1002/elan.201600260>`_
 by Alberto Battistel, Guoqing Du, and Fabio La Mantia.
 Fitting is done via complex non-linear optimization of the model parameters using two approaches - deterministic and stochastic.
 The deterministic optimization is based on the TNC/BFGS/L-BFGS solvers from the `Unconstrained optimization API <https://jaxopt.github.io/stable/unconstrained.html>`_
