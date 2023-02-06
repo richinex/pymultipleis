@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pymultipleis"
-version = "0.2.4"
+version = "0.2.5"
 description="A library for fitting a sequence of electrochemical impedance spectra (JAX version)."
 authors = ["Richard Chukwu <richinex@gmail.com>"]
 license="MIT"
