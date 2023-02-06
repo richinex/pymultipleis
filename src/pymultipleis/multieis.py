@@ -579,7 +579,7 @@ class Multieis:
                 self.kvals[i]:self.kvals[i + 1]
             ])
         perr = perr.copy() * P
-        # if the error is nan, a value of 1 is assigned.
+        # if the error is nan, a value of 1e15 is assigned.
         return jnp.nan_to_num(perr, nan=1.0e15)
 
     def compute_perr_QR(self,
@@ -916,8 +916,8 @@ class Multieis:
         print("Optimization complete")
         end = datetime.now()
         print(f"total time is {end-start}", end=" ")
-        self.Z_exp = self.Z.clone()
-        self.Y_exp = 1 / self.Z_exp.clone()
+        self.Z_exp = self.Z.copy()
+        self.Y_exp = 1 / self.Z_exp.copy()
         self.Z_pred, self.Y_pred = self.model_prediction(self.popt, self.F)
         self.indices = [i for i in range(self.Z_exp.shape[1])]
 
